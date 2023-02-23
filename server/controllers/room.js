@@ -43,9 +43,14 @@ export const joinRoom = async (req, res) => {
     res.status(422).json({ error: "Please add all fields" });
   } else {
     const room = await Room.findOne({ roomId: roomId });
+    
     if(!room)
     {
         res.status(422).json({ error: "Invalid Room Id or password" });
+    }
+    else if(room.isDeleted)
+    {
+      res.status(422).json({ error: "Room is deleted" });
     }
     else if(room.password === password)
     {
@@ -109,4 +114,48 @@ export const codeSave = async (req,res) => {
   return true;
 };
 
+export const deleteRoom = async (req,res) => {
+  const result = await Room.findOneAndUpdate(
+    { roomId: req.body.roomId },
+    { $set: { isDeleted: true } },
+    { new: true }
+  );
+  console.log('Room deleted')
+  res.status(200).json(result);
+}
+
+export const setRoomLimit = async (req,res) => {
+  const result = await Room.findOneAndUpdate(
+    { roomId: req.body.roomId },
+    { $set: { roomLimit: req.body.limit } },
+    { new: true }
+  );
+  console.log(`Limit is changed to ${req.body.limit}`)
+  res.status(200).json(result);
+}
+
+export const roomMembers = async (req,res) => {
+  const { roomId } = req.params;
+  try {
+    const room = await Room.find({
+      "roomId": roomId,
+    }).select({members: 1, _id: 0 });
+    res.status(200).json(room);
+  } catch (e) {
+    res.status(500).json(e);
+    console.log(e)
+  }
+}
+
+export const removeMember = async (req,res) => {
+  const result = await Room.updateOne(
+    { roomId: req.body.roomId },
+    {
+      $pull: { "members": { "userId": req.body.userId } }
+  },
+    { new: true }
+  );
+  console.log('User deleted')
+  res.status(200).json(result);
+}
 export default {createRoom,getRoomsOfUser,joinRoom,codeSave};

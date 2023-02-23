@@ -33,7 +33,8 @@ const roomSchema = new Schema(
         type: String,
       },
       isSuperUser: {
-        type: Boolean
+        type: Boolean,
+        default: false
       }
     },
   },
