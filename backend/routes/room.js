@@ -1,6 +1,15 @@
-import { Router } from 'express';
-import { createRoom, getRoomsOfUser, joinRoom, codeSave, deleteRoom, setRoomLimit, roomMembers, removeMember} from '../controllers/room.js';
-const router = Router();
+const {
+  createRoom,
+  getRoomsOfUser,
+  joinRoom,
+  codeSave,
+  deleteRoom,
+  setRoomLimit,
+  roomMembers,
+  removeMember,
+} = require("../controllers/room.js");
+const express = require("express");
+const router = express.Router();
 
 // new room
 router.post("/room", createRoom);
@@ -14,13 +23,12 @@ router.get("/:userId", getRoomsOfUser);
 // post code to DB
 router.post("/code", codeSave);
 
-router.put('/deleteroom', deleteRoom);
+router.put("/deleteroom", deleteRoom);
 
-router.put('/roomlimit', setRoomLimit);
+router.put("/roomlimit", setRoomLimit);
 
-router.get('/members/:roomId', roomMembers)
+router.get("/members/:roomId", roomMembers);
 
-router.put('/removeuser', removeMember);
+router.put("/removeuser", removeMember);
 
-
-export default router;
+module.exports = router;
