@@ -11,7 +11,7 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [email, setEmail] = useState();
+  const [username, setusername] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ const Login = () => {
 
   const submitHandler = async () => {
     setLoading(true);
-    if (!email || !password) {
+    if (!username || !password) {
       toast({
         title: "Please Fill all the Feilds",
         status: "warning",
@@ -31,7 +31,7 @@ const Login = () => {
       return;
     }
 
-    // console.log(email, password);
+    // console.log(username, password);
     try {
       const config = {
         headers: {
@@ -41,7 +41,7 @@ const Login = () => {
 
       const { data } = await axios.post(
         "/api/user/login",
-        { email, password },
+        { username, password },
         config
       );
 
@@ -55,7 +55,7 @@ const Login = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/chats");
+      history.push("/HomePage");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -71,13 +71,13 @@ const Login = () => {
 
   return (
     <VStack spacing="10px">
-      <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+      <FormControl id="username" isRequired>
+        <FormLabel>Username</FormLabel>
         <Input
-          value={email}
-          type="email"
-          placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          type="username"
+          placeholder="Username"
+          onChange={(e) => setusername(e.target.value)}
         />
       </FormControl>
       <FormControl id="password" isRequired>
@@ -112,7 +112,7 @@ const Login = () => {
         width={"50%"}
         style={{ marginTop: 20 }}
         onClick={() => {
-          setEmail("guest@example.com");
+          setusername("guest");
           setPassword("123456");
         }}
       >

@@ -1,9 +1,8 @@
-import { Router } from 'express'
-const router = Router()
-import { getAllProblems, getProblemById } from '../controllers/problem.js'
+const express = require("express");
+const router = express.Router();
+const { getAllProblems, getProblemById } = require("../controllers/problem.js");
 
-router.get('/fetch', getAllProblems)
-router.get('/fetch/:id', getProblemById)
+router.get("/fetch", getAllProblems);
+router.get("/fetch/:id", getProblemById);
 
-
-export default router;
+module.exports = router;
