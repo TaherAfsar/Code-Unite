@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const colors = require("colors");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const problemRoutes = require("./routes/problem");
+const room = require("./routes/room");
+// const HomepageRoutes = require("./routes/HomepageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 dotenv.config();
@@ -21,7 +24,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
-
+app.use("/api/problem", problemRoutes);
+app.use("/api/room", room);
+// app.use("/api/HomePage", HomepageRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+const mongoose = require("mongoose");
 
-const roomSchema = new Schema(
+const roomSchema = new mongoose.Schema(
   {
     roomName: {
       type: String,
@@ -19,10 +19,10 @@ const roomSchema = new Schema(
       default: "",
     },
     roomLimit: {
-        type: Number,
+      type: Number,
     },
     isDeleted: {
-        type: Boolean
+      type: Boolean,
     },
     members: {
       type: Array,
@@ -34,13 +34,13 @@ const roomSchema = new Schema(
       },
       isSuperUser: {
         type: Boolean,
-        default: false
-      }
+        default: false,
+      },
     },
   },
   { timestamps: true }
 );
 
-const Room = model('room', roomSchema); 
+const Room = mongoose.model("room", roomSchema);
 
-export default Room;
+module.exports = Room;

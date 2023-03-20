@@ -14,7 +14,7 @@ const Signup = () => {
   const history = useHistory();
 
   const [name, setName] = useState();
-  const [email, setEmail] = useState();
+  const [username, setusername] = useState();
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
@@ -22,7 +22,7 @@ const Signup = () => {
 
   const submitHandler = async () => {
     setPicLoading(true);
-    if (!name || !email || !password || !confirmpassword) {
+    if (!name || !username || !password || !confirmpassword) {
       toast({
         title: "Please Fill all the Feilds",
         status: "warning",
@@ -43,7 +43,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    console.log(name, username, password, pic);
     try {
       const config = {
         headers: {
@@ -54,7 +54,7 @@ const Signup = () => {
         "/api/user",
         {
           name,
-          email,
+          username,
           password,
           pic,
         },
@@ -138,12 +138,12 @@ const Signup = () => {
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
-      <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+      <FormControl id="Username" isRequired>
+        <FormLabel>Username</FormLabel>
         <Input
-          type="email"
-          placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
+          type="username"
+          placeholder="Enter Your Username"
+          onChange={(e) => setusername(e.target.value)}
         />
       </FormControl>
       <FormControl id="password" isRequired>

@@ -3,13 +3,13 @@ const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
-  if (!name || !email || !password) {
+  const { name, username, password, pic } = req.body;
+  if (!name || !username || !password) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
 
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ username });
 
   if (userExists) {
     res.status(400);
@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   const user = await User.create({
     name,
-    email,
+    username,
     password,
     pic,
   });
@@ -26,7 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       _id: user._id,
       name: user.name,
-      email: user.email,
+      username: user.username,
       pic: user.pic,
       token: generateToken(user._id),
     });
@@ -37,19 +37,19 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
   if (user && (await user.matchPassword(password))) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
-      email: user.email,
+      username: user.username,
       pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
     res.status(401);
-    throw new Error("Invalid email or password");
+    throw new Error("Invalid username or password");
   }
 });
 
@@ -59,7 +59,7 @@ const allUsers = asyncHandler(async (req, res) => {
     ? {
         $or: [
           { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
+          { username: { $regex: req.query.search, $options: "i" } },
         ],
       }
     : {};

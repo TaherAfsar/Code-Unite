@@ -1,7 +1,29 @@
-import { nanoid } from "nanoid";
-import Room from "../models/room.js";
+let nanoid;
 
-export const createRoom = async (req, res) => {
+async function generateId() {
+  if (!nanoid) {
+    const nanoidModule = await import("nanoid");
+    nanoid = nanoidModule.nanoid;
+  }
+  return nanoid();
+}
+
+// Call generateId() to generate an ID
+async function run() {
+  const id = await generateId();
+  console.log(id);
+}
+
+run();
+
+// Use nanoid() outside of the generateId function
+if (nanoid) {
+  console.log(nanoid());
+}
+
+const Room = require("../models/room");
+
+const createRoom = async (req, res) => {
   const { userName, roomName, password } = req.body;
   if (!userName || !roomName || !password) {
     res.status(422).json({ error: "please add all field" });
@@ -23,7 +45,7 @@ export const createRoom = async (req, res) => {
   }
 };
 
-export const getRoomsOfUser = async (req, res) => {
+const getRoomsOfUser = async (req, res) => {
   const { userId } = req.params;
   try {
     const room = await Room.find({
@@ -36,7 +58,7 @@ export const getRoomsOfUser = async (req, res) => {
   }
 };
 
-export const joinRoom = async (req, res) => {
+const joinRoom = async (req, res) => {
   const { userName, roomId, user, password } = req.body;
   console.log(req.body);
   if (!userName || !roomId || !password) {
@@ -97,7 +119,7 @@ export const joinRoom = async (req, res) => {
   }
 };
 
-export const codeSave = async (req, res) => {
+const codeSave = async (req, res) => {
   const { roomId, code } = req.body;
 
   const result = await Room.findOneAndUpdate(
@@ -111,7 +133,7 @@ export const codeSave = async (req, res) => {
   return true;
 };
 
-export const deleteRoom = async (req, res) => {
+const deleteRoom = async (req, res) => {
   const result = await Room.findOneAndUpdate(
     { roomId: req.body.roomId },
     { $set: { isDeleted: true } },
@@ -121,7 +143,7 @@ export const deleteRoom = async (req, res) => {
   res.status(200).json(result);
 };
 
-export const setRoomLimit = async (req, res) => {
+const setRoomLimit = async (req, res) => {
   const result = await Room.findOneAndUpdate(
     { roomId: req.body.roomId },
     { $set: { roomLimit: req.body.limit } },
@@ -131,7 +153,7 @@ export const setRoomLimit = async (req, res) => {
   res.status(200).json(result);
 };
 
-export const roomMembers = async (req, res) => {
+const roomMembers = async (req, res) => {
   const { roomId } = req.params;
   try {
     const room = await Room.find({
@@ -144,7 +166,7 @@ export const roomMembers = async (req, res) => {
   }
 };
 
-export const removeMember = async (req, res) => {
+const removeMember = async (req, res) => {
   const result = await Room.updateOne(
     { roomId: req.body.roomId },
     {
@@ -155,4 +177,13 @@ export const removeMember = async (req, res) => {
   console.log("User deleted");
   res.status(200).json(result);
 };
-export default { createRoom, getRoomsOfUser, joinRoom, codeSave };
+module.exports = {
+  createRoom,
+  getRoomsOfUser,
+  joinRoom,
+  codeSave,
+  removeMember,
+  roomMembers,
+  setRoomLimit,
+  deleteRoom,
+};
