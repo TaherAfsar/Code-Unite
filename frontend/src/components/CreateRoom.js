@@ -59,6 +59,16 @@ import {
                       onChange={(e) => setUserName(e.target.value)}
                   />
               </FormControl>
+              <br/>
+              <FormControl id='Name'>
+                  <FormLabel>
+                      Room password:
+                  </FormLabel>
+                  <Input
+                      placeholder='Enter the password to your room'
+                      onChange={(e) => setUserName(e.target.value)}
+                  />
+              </FormControl>
   
               <Button id='submit'
               backgroundColor={'#1c1d1f'}
