@@ -5,17 +5,17 @@ import Homepage from "./pages/Homepage";
 import ChatPage from "./pages/ChatPage";
 import JoinRoom from "./components/JoinRoom";
 import CreateRoom from "./components/CreateRoom";
-// import ProblemStatement from "./components/ProblemStatement";
+import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
 
 function App() {
   return (
     <div className="App">
       <Route path="/" component={Homepage} exact />
+      <Route path="/home" component={Home} />
       <Route path="/joinroom" component={JoinRoom} />
       <Route path="/createroom" component={CreateRoom} />
-      {/* <Route path="/problems" component={ProblemStatement} /> */}
-      <Home />
+      <Route path="/problems" component={ProblemStatement} />
     </div>
   );
 }

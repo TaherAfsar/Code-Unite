@@ -24,7 +24,7 @@ if (nanoid) {
 const Room = require("../models/room");
 
 const createRoom = async (req, res) => {
-  const { userName, roomName, password } = req.body;
+  const { userName, roomName, password, roomLimit } = req.body;
   if (!userName || !roomName || !password) {
     res.status(422).json({ error: "please add all field" });
     return;
@@ -34,6 +34,7 @@ const createRoom = async (req, res) => {
     members: [{ userId: nanoid(4), name: userName, isSuperUser: true }],
     roomName,
     password,
+    roomLimit,
   });
 
   try {

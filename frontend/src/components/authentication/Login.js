@@ -44,7 +44,7 @@ const Login = () => {
         { username, password },
         config
       );
-
+      localStorage.setItem("username", username);
       // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
@@ -55,7 +55,7 @@ const Login = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/HomePage");
+      history.push("/home");
     } catch (error) {
       toast({
         title: "Error Occured!",
