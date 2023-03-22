@@ -15,12 +15,12 @@ function NavBar() {
             </Link>
         </Box>
         <Spacer />
-        <Stack direction="row" spacing="8">
+        <Stack direction="row" spacing="7">
           <Link to="/joinroom">Join Room</Link>
           <Link to="/createroom">Create Room</Link>
           <Link to="../pages/ProblemStatement">Problem Statements</Link>
-          <Link to="../pages/ProblemStatement">
-          <Image width={'50px'} height={'50px'} alt='logo' src={profileIcon1} mt = '-25px'/>
+          <Link to="../pages/">
+          <Image width={'40px'} height={'50px'} alt='logo' src={profileIcon1} mt = '-25px'/>
           </Link>
           {/* <Link to="/contact">Contact</Link> */}
         </Stack>
