@@ -53,7 +53,8 @@ const CreateRoom = () => {
 
           // console.log("room is created!!!!!!!!!");
           // alert(`Room is created & Room ID is ${res.data.roomId}`);
-          history.push("/room/".concat(res.data.roomId));
+          // history.push("/room/".concat(res.data.roomId));
+          history.push("/problems");
         }
       })
       .catch((err) => {
