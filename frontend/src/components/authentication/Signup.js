@@ -60,6 +60,7 @@ const Signup = () => {
         },
         config
       );
+      localStorage.setItem("username", username);
       console.log(data);
       toast({
         title: "Registration Successful",
@@ -70,7 +71,7 @@ const Signup = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      history.push("/chats");
+      history.push("/home");
     } catch (error) {
       toast({
         title: "Error Occured!",

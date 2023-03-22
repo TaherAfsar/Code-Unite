@@ -22,9 +22,8 @@ if (nanoid) {
 }
 
 const Room = require("../models/room");
-
 const createRoom = async (req, res) => {
-  const { userName, roomName, password } = req.body;
+  const { userName, roomName, password, roomLimit } = req.body;
   if (!userName || !roomName || !password) {
     res.status(422).json({ error: "please add all field" });
     return;
@@ -34,6 +33,7 @@ const createRoom = async (req, res) => {
     members: [{ userId: nanoid(4), name: userName, isSuperUser: true }],
     roomName,
     password,
+    roomLimit,
   });
 
   try {
@@ -59,13 +59,13 @@ const getRoomsOfUser = async (req, res) => {
 };
 
 const joinRoom = async (req, res) => {
-  const { userName, roomId, user, password } = req.body;
+  const { userName, roomId, password } = req.body;
   console.log(req.body);
   if (!userName || !roomId || !password) {
     res.status(422).json({ error: "Please add all fields" });
   } else {
     const room = await Room.findOne({ roomId: roomId });
-
+    const user = await Room.findOne({ userName: userName });
     if (!room) {
       res.status(422).json({ error: "Invalid Room Id or password" });
     } else if (room.isDeleted) {

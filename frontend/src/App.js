@@ -5,19 +5,20 @@ import Homepage from "./pages/Homepage";
 import ChatPage from "./pages/ChatPage";
 import JoinRoom from "./components/JoinRoom";
 import CreateRoom from "./components/CreateRoom";
-// import ProblemStatement from "./components/ProblemStatement";
+import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
-import bgvideo from "../src/bgvideo.mp4";
+
+import NavBar from "./components/navbar";
+
 function App() {
   return (
     <div className="App">
-      {/* <Route path="/" component={Homepage} exact /> */}
-      {/* <Route path="/joinroom" component={JoinRoom} /> */}
-      {/* <Route path="/createroom" component={CreateRoom} /> */}
-      {/* <Route path="/problems" component={ProblemStatement} /> */}
-      {/* <Home /> */}
-      <JoinRoom />
-      <video src={bgvideo} autoPlay loop/>
+      <NavBar />
+      <Route path="/" component={Homepage} exact />
+      <Route path="/home" component={Home} />
+      <Route path="/joinroom" component={JoinRoom} />
+      <Route path="/createroom" component={CreateRoom} />
+      <Route path="/problems" component={ProblemStatement} />
     </div>
   );
 }
