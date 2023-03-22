@@ -55,7 +55,7 @@ const JoinRoom = () => {
                     Room ID:
                 </FormLabel>
                 <Input
-                    placeholder='Enter Number of users to enter the room'
+                    placeholder='Enter the Room ID provided by SuperUser'
                     onChange={(e) => setUserName(e.target.value)}
                 />
             </FormControl>
