@@ -1,9 +1,18 @@
 import React from "react";
-
+import { Button } from "@chakra-ui/react";
 import { Box, Text } from "@chakra-ui/react";
 import { Container } from "react-bootstrap";
-
+import { useState, useEffect } from "react";
 const ProblemStatement = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/problem/fetch")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error(error));
+  }, []);
+  console.log(data);
   const tableData = [
     {
       id: 1,
@@ -69,17 +78,28 @@ const ProblemStatement = () => {
           <table style={tableStyle}>
             <thead>
               <tr>
-                <th style={thStyle}>Sr No.</th>
+                <th style={thStyle}>Title</th>
                 <th style={thStyle}>Problem Statement</th>
+                <th style={thStyle}>Difficulty</th>
                 <th style={thStyle}>Selection</th>
               </tr>
             </thead>
             <tbody>
-              {tableData.map((row) => (
+              {data.map((row) => (
                 <tr key={row.id}>
-                  <td style={tdStyle}>{row.id}</td>
-                  <td style={tdStyle}>{row.name}</td>
-                  <td style={tdStyle}>{row.price}</td>
+                  <td style={tdStyle}>{row.title}</td>
+                  <td style={tdStyle}>{row.problem}</td>
+                  <td style={tdStyle}>{row.difficulty}</td>
+                  <td style={tdStyle}>
+                    <Button
+                      backgroundColor={"#9840db"}
+                      color="#1c1d1f"
+                      width={"80%"}
+                      style={{ marginTop: 20 }}
+                    >
+                      Select
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

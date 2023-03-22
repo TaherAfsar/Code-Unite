@@ -7,10 +7,12 @@ import JoinRoom from "./components/JoinRoom";
 import CreateRoom from "./components/CreateRoom";
 import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
+import NavBar from "./components/navbar";
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <Route path="/" component={Homepage} exact />
       <Route path="/home" component={Home} />
       <Route path="/joinroom" component={JoinRoom} />
