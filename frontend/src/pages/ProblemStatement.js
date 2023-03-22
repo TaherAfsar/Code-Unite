@@ -1,11 +1,41 @@
+import axios from "axios";
 import React from "react";
 import { Button } from "@chakra-ui/react";
 import { Box, Text } from "@chakra-ui/react";
 import { Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 const ProblemStatement = () => {
   const [data, setData] = useState([]);
+  const history = useHistory();
+  const userD = JSON.parse(localStorage.getItem("user"));
+  const room_id = userD.RoomId;
+  console.log(room_id);
+  const handleSelect = (id) => {
+    console.log(userD);
+    if (
+      window.confirm("Are you sure you want to select this statement") === true
+    ) {
+      const data = {
+        roomId: room_id, // Replace with your actual room ID
+        problem_id: id, // Pass the ID of the selected problem
+      };
 
+      axios
+        .post("/api/problem/select", data)
+        .then((response) => {
+          // Handle successful response
+          console.log(response);
+        })
+        .catch((error) => {
+          // Handle error
+          console.error(error);
+        });
+      history.push("/room/" + room_id);
+    } else {
+      history.pushState("/problems");
+    }
+  };
   useEffect(() => {
     fetch("/api/problem/fetch")
       .then((response) => response.json())
@@ -13,23 +43,6 @@ const ProblemStatement = () => {
       .catch((error) => console.error(error));
   }, []);
   console.log(data);
-  const tableData = [
-    {
-      id: 1,
-      name: "You have been given an array of positive integers A1,A2,...,An with legnth N and you have to print an array of same legnth(N) where the values in the new array are the sum of every number in the array, except the number at that index.",
-      price: "Select",
-    },
-    {
-      id: 2,
-      name: "You have been given an array of positive integers A1,A2,...,An with legnth N and you have to print an array of same legnth(N) where the values in the new array are the sum of every number in the array, except the number at that index.",
-      price: "Select",
-    },
-    {
-      id: 3,
-      name: "You have been given an array of positive integers A1,A2,...,An with legnth N and you have to print an array of same legnth(N) where the values in the new array are the sum of every number in the array, except the number at that index.",
-      price: "Select",
-    },
-  ];
 
   const background = {
     backgroundColor: "#1c1d1f",
@@ -96,6 +109,7 @@ const ProblemStatement = () => {
                       color="#1c1d1f"
                       width={"80%"}
                       style={{ marginTop: 20 }}
+                      onClick={() => handleSelect(row._id)}
                     >
                       Select
                     </Button>
