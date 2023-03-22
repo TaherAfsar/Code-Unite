@@ -24,6 +24,10 @@ const roomSchema = new mongoose.Schema(
     isDeleted: {
       type: Boolean,
     },
+    problem_id: {
+      type: String,
+      default: "",
+    },
     members: {
       type: Array,
       userId: {
@@ -32,6 +36,7 @@ const roomSchema = new mongoose.Schema(
       name: {
         type: String,
       },
+
       isSuperUser: {
         type: Boolean,
         default: false,
