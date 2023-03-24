@@ -7,8 +7,8 @@ import JoinRoom from "./components/JoinRoom";
 import CreateRoom from "./components/CreateRoom";
 import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
-
 import NavBar from "./components/navbar";
+import Editor from "./components/editor";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
       <Route path="/joinroom" component={JoinRoom} />
       <Route path="/createroom" component={CreateRoom} />
       <Route path="/problems" component={ProblemStatement} />
+      <Route path="/editor" component={Editor} />
     </div>
   );
 }
