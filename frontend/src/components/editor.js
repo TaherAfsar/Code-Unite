@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { MdRefresh } from "react-icons/md";
 import AceEditor from "react-ace";
+import { socket_global } from "../utils/sockets.js";
+
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -30,11 +32,15 @@ const Editor = () => {
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
-
-  const handleCodeChange = (newCode) => {
-    setCode(newCode);
+  const onChangeEditor = (e) => {
+    socket_global.emit("editor", e);
   };
 
+  useEffect(() => {
+    socket_global.on("editor", (msg) => {
+      setCode(msg);
+    });
+  });
   const handleReset = () => {
     setCode(defaultCode);
     setConsoleLogs([]);
@@ -55,7 +61,7 @@ const Editor = () => {
       if (language === "python3") {
         program = {
           ...program,
-          stdin: "",
+          stdin: "1",
         };
       } else if (language === "java") {
         program = {
@@ -162,7 +168,7 @@ const Editor = () => {
           <AceEditor
             mode="python"
             theme="monokai"
-            onChange={handleCodeChange}
+            onChange={onChangeEditor}
             value={code}
             width="100%"
             height="400px"
