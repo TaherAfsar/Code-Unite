@@ -14,7 +14,6 @@ import { MdRefresh } from "react-icons/md";
 import AceEditor from "react-ace";
 import { socket_global } from "../utils/sockets.js";
 
-
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
@@ -27,15 +26,20 @@ const Editor = () => {
   const [code, setCode] = useState(defaultCode);
   const [language, setLanguage] = useState("python3");
   const [consoleLogs, setConsoleLogs] = useState([]);
+  const [input, setInput] = useState("");
   const toast = useToast();
 
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
   const onChangeEditor = (e) => {
+    setCode(e);
     socket_global.emit("editor", e);
   };
-
+  const onChangeInput = (e) => {
+    setInput(e);
+    console.log(input);
+  };
   useEffect(() => {
     socket_global.on("editor", (msg) => {
       setCode(msg);
@@ -61,12 +65,12 @@ const Editor = () => {
       if (language === "python3") {
         program = {
           ...program,
-          stdin: "1",
+          stdin: input,
         };
       } else if (language === "java") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "3",
           script: { code },
         };
@@ -75,7 +79,7 @@ const Editor = () => {
       //  else if (language === "java") {
       //   program = {
       //     ...program,
-      //     stdin: "",
+      //     stdin: input,
       //     versionIndex: "3",
       //     script: `public class Main { public static void main(String[] args) { ${code} } }`,
       //   };
@@ -83,43 +87,43 @@ const Editor = () => {
       else if (language === "nodejs") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "2",
         };
       } else if (language === "ruby") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "3",
         };
       } else if (language === "c") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "0",
         };
       } else if (language === "cpp") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "4",
         };
       } else if (language === "csharp") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "1",
         };
       } else if (language === "swift") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "3",
         };
       } else if (language === "php") {
         program = {
           ...program,
-          stdin: "",
+          stdin: input,
           versionIndex: "3",
         };
       }
@@ -186,12 +190,24 @@ const Editor = () => {
           </Flex>
         </Stack>
         <Stack w={["100%", "50%"]} p="2">
-          <Text mb="2">Console Logs:</Text>
+          <Text mb="2">Input</Text>
+          <AceEditor
+            mode="python"
+            theme="monokai"
+            onChange={onChangeInput}
+            value={input}
+            width="75%"
+            height="200px"
+            name="editor"
+            editorProps={{ $blockScrolling: true }}
+          />
+          <Text mb="2">Output</Text>
           <Box
             borderWidth="1px"
             borderRadius="md"
             p="2"
-            h="400px"
+            h="200px"
+            w="75%"
             overflowY="scroll"
           >
             {consoleLogs.map((log, index) => (
