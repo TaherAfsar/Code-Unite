@@ -4,10 +4,12 @@ import { Button } from "@chakra-ui/react";
 import { Box, Text } from "@chakra-ui/react";
 import { Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const ProblemStatement = () => {
-  const [data, setData] = useState([]);
-  const history = useHistory();
+
+  const [data, setData] = useState([]);  
+  const navigate = useNavigate();
+
   const userD = JSON.parse(localStorage.getItem("user"));
   const room_id = userD.RoomId;
   console.log(room_id);
@@ -31,9 +33,12 @@ const ProblemStatement = () => {
           // Handle error
           console.error(error);
         });
-      history.push("/room/" + room_id);
+
+      navigate("/room/" + room_id);
     } else {
-      history.pushState("/problems");
+      navigate(`/room/${room_id}`);
+
+     navigate("/problems");
     }
   };
   useEffect(() => {

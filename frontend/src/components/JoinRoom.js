@@ -3,13 +3,16 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import React, { useState } from "react";
 import { Button } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 const userName = localStorage.getItem("username");
 const JoinRoom = (props) => {
   const [roomId, setRoomId] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
+ 
+  
   const formSubmitEventHandler = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -42,7 +45,8 @@ const JoinRoom = (props) => {
           //alert(res.data)
           console.log(res.data);
           console.log(roomId);
-          history.push("/room/" + roomId);
+          navigate(`/room/${roomId}`);
+
           // return <Redirect to={`/room/${roomId}`} />;
         }
       })
@@ -114,7 +118,7 @@ const JoinRoom = (props) => {
       </center>
     );
   } else {
-    history.push("/login");
+    navigate("/login");
   }
 };
 

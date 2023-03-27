@@ -10,10 +10,10 @@ import {
 } from "@chakra-ui/react";
 import Login from "../components/authentication/Login";
 import Signup from "../components/authentication/Signup";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const userName = localStorage.getItem("username");
 const Home = (props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   if (userName == null) {
     return (
       <center>
@@ -63,7 +63,7 @@ const Home = (props) => {
       </center>
     );
   } else {
-    history.push("/Home");
+    navigate("/Home");
   }
 };
 
