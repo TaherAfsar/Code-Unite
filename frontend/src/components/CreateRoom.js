@@ -3,7 +3,7 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import React, { useState } from "react";
 import { Button } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const userName = localStorage.getItem("username");
 const CreateRoom = (props) => {
@@ -17,7 +17,7 @@ const CreateRoom = (props) => {
   //   const setUserNameEventHandler = (e) => {
   //     setUserName(e.target.value);
   //   };
-  const history = useHistory();
+  const navigate = useNavigate();
   const formSubmitEventHandler = () => {
     const config = {
       headers: {
@@ -52,8 +52,7 @@ const CreateRoom = (props) => {
 
           // console.log("room is created!!!!!!!!!");
           // alert(`Room is created & Room ID is ${res.data.roomId}`);
-          // history.push("/room/".concat(res.data.roomId));
-          history.push("/problems");
+          navigate("/problems");
         }
       })
       .catch((err) => {
@@ -133,7 +132,7 @@ const CreateRoom = (props) => {
       </center>
     );
   } else {
-    history.push("/login");
+    navigate("/login");
   }
 };
 
