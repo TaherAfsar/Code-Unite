@@ -49,6 +49,11 @@ const Editor = () => {
     setCode(defaultCode);
     setConsoleLogs([]);
   };
+  React.useEffect(() => {
+    axios.get("http://localhost:3000/api/editor").then((response) => {
+      setPost(response.data);
+    });
+  }, []);
   const handleExecute = async () => {
     setConsoleLogs([]);
 

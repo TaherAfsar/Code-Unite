@@ -7,7 +7,7 @@ import CreateRoom from "./components/CreateRoom";
 import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
 import NavBar from "./components/navbar";
-import Editor from "./components/Editor";
+import Editor from "./components/editor";
 
 function App() {
   return (
