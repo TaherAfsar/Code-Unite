@@ -26,9 +26,7 @@ const API_URL = "https://api.jdoodle.com/v1/execute";
 const defaultCode = 'print("hello world");';
 
 const Editor = () => {
-  const [problemStatement, setProblemStatement] = useState(
-    "Get Connected to CodeUnite"
-  );
+  const [problemStatement, setProblemStatement] = useState([]);
   const [problemId, setProblemId] = useState("");
   const [code, setCode] = useState(defaultCode);
   const [language, setLanguage] = useState("python3");
@@ -38,7 +36,6 @@ const Editor = () => {
   const location = useLocation();
   const currentUrl = location.pathname;
   const roomId = currentUrl.substring(6);
-  console.log(roomId);
 
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
@@ -49,7 +46,6 @@ const Editor = () => {
   };
   const onChangeInput = (e) => {
     setInput(e);
-    console.log(input);
   };
   useEffect(() => {
     socket_global.on("editor", (msg) => {
@@ -80,7 +76,9 @@ const Editor = () => {
   //   .catch((error) => {
   //     console.error("Error:", error);
   //   });
-  fetch(`${PROXY_URL}http://localhost:5000/api/editor/problemId`, {
+  useEffect(() => {
+    //Runs on every render
+    fetch(`http://localhost:5000/api/editor/problemId`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -91,9 +89,30 @@ const Editor = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      setProblemId(data.problem_id); // assuming you have a state variable named problemId
+      setProblemId(data.problem_id);
+
+      fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log( typeof(data))
+            setProblemStatement(Object.values(data))
+            console.log(problemStatement)
+        })
+        .catch((error) => console.error(error));
+
+
     })
     .catch((error) => console.error(error));
+
+  
+
+  },[]);
+  
 
   const handleExecute = async () => {
     setConsoleLogs([]);
@@ -209,8 +228,8 @@ const Editor = () => {
         borderRadius={"10px"}
         borderWidth="3"
       >
-        <Text fontSize="3xl" fontFamily="Work sans" color="white">
-          {problemStatement}
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement==[]?"Getting to know CodeUnite":problemStatement[2]}
         </Text>
       </Box>
       <Box w="100%" p="4" backgroundColor={"#9840db"}>

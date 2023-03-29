@@ -39,6 +39,7 @@ const createRoom = async (req, res) => {
   try {
     const savedRoom = await newRoom.save();
     res.status(200).json(savedRoom);
+    console.log(savedRoom);
     console.log("create room called");
   } catch (err) {
     res.status(500).json(err);

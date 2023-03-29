@@ -8,7 +8,7 @@ import ProblemStatement from "./pages/ProblemStatement";
 import Home from "./components/Home";
 import NavBar from "./components/navbar";
 import Editor from "./components/editor";
-
+import { Room } from "./components/Room";
 function App() {
   return (
     <div className="App">
@@ -20,7 +20,7 @@ function App() {
       <Route path="/joinroom" element={<JoinRoom/>} />
       <Route path="/createroom" element={<CreateRoom/>} />
       <Route path="/problems" element={<ProblemStatement/>} />
-      <Route path="/room/:userId" element={<Editor/>} />
+      <Route path="/room/:userId" element={<Room/>} />
       <Route path="/editor" element={<Editor/>} />
       </Routes>
     </div>
