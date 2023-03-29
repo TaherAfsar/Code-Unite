@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import React from "react";
 import {
   Box,
   Text,
@@ -9,11 +11,12 @@ import {
   Select,
   Stack,
   useToast,
+  Container,
 } from "@chakra-ui/react";
 import { MdRefresh } from "react-icons/md";
 import AceEditor from "react-ace";
 import { socket_global } from "../utils/sockets.js";
-
+import { useLocation } from "react-router-dom";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
@@ -23,11 +26,19 @@ const API_URL = "https://api.jdoodle.com/v1/execute";
 const defaultCode = 'print("hello world");';
 
 const Editor = () => {
+  const [problemStatement, setProblemStatement] = useState(
+    "Get Connected to CodeUnite"
+  );
+  const [problemId, setProblemId] = useState("");
   const [code, setCode] = useState(defaultCode);
   const [language, setLanguage] = useState("python3");
   const [consoleLogs, setConsoleLogs] = useState([]);
   const [input, setInput] = useState("");
   const toast = useToast();
+  const location = useLocation();
+  const currentUrl = location.pathname;
+  const roomId = currentUrl.substring(6);
+  console.log(roomId);
 
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
@@ -49,11 +60,41 @@ const Editor = () => {
     setCode(defaultCode);
     setConsoleLogs([]);
   };
-  React.useEffect(() => {
-    axios.get("http://localhost:3000/api/editor").then((response) => {
-      setPost(response.data);
-    });
-  }, []);
+  // fetch(`${PROXY_URL}"http://localhost:5000/api/editor/problemId"`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   },
+  //   body: { id: roomId },
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     console.log(data);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //   });
+  fetch(`${PROXY_URL}http://localhost:5000/api/editor/problemId`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: roomId,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setProblemId(data.problem_id); // assuming you have a state variable named problemId
+    })
+    .catch((error) => console.error(error));
+
   const handleExecute = async () => {
     setConsoleLogs([]);
 
@@ -157,70 +198,86 @@ const Editor = () => {
   };
 
   return (
-    <Box w="100%" p="4" backgroundColor={"#9840db"}>
-      <Flex direction={["column", "row"]}>
-        <Stack w={["100%", "50%"]} p="2">
-          <Flex mb="2">
-            <Text mr="2">Language:</Text>
-            <Select value={language} onChange={handleLanguageChange}>
-              <option value="python3">Python 3</option>
-              <option value="java">Java</option>
-              <option value="nodejs">JavaScript</option>
-              <option value="ruby">Ruby</option>
-              <option value="c">C</option>
-              <option value="cpp">C++</option>
-              <option value="csharp">C#</option>
-              <option value="swift">Swift</option>
-              <option value="php">Php</option>
-            </Select>
-          </Flex>
-          <AceEditor
-            mode="python"
-            theme="monokai"
-            onChange={onChangeEditor}
-            value={code}
-            width="100%"
-            height="400px"
-            name="editor"
-            editorProps={{ $blockScrolling: true }}
-          />
-          <Flex mt="4">
-            <Button onClick={handleExecute}>Run</Button>
-            <IconButton
-              ml="2"
-              aria-label="Reset Code"
-              icon={<MdRefresh />}
-              onClick={handleReset}
+    <Box>
+      <Box
+        d="flex"
+        justifyContent="flex-start"
+        p={"3"}
+        bg={"#9840db"}
+        w="100%"
+        m="70px 0 15px 0"
+        borderRadius={"10px"}
+        borderWidth="3"
+      >
+        <Text fontSize="3xl" fontFamily="Work sans" color="white">
+          {problemStatement}
+        </Text>
+      </Box>
+      <Box w="100%" p="4" backgroundColor={"#9840db"}>
+        <Flex direction={["column", "row"]}>
+          <Stack w={["100%", "50%"]} p="2">
+            <Flex mb="2">
+              <Text mr="2">Language:</Text>
+              <Select value={language} onChange={handleLanguageChange}>
+                <option value="python3">Python 3</option>
+                <option value="java">Java</option>
+                <option value="nodejs">JavaScript</option>
+                <option value="ruby">Ruby</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="csharp">C#</option>
+                <option value="swift">Swift</option>
+                <option value="php">Php</option>
+              </Select>
+            </Flex>
+            <AceEditor
+              mode="python"
+              theme="monokai"
+              onChange={onChangeEditor}
+              value={code}
+              width="100%"
+              height="400px"
+              name="editor"
+              editorProps={{ $blockScrolling: true }}
             />
-          </Flex>
-        </Stack>
-        <Stack w={["100%", "50%"]} p="2">
-          <Text mb="2">Input</Text>
-          <AceEditor
-            mode="python"
-            theme="monokai"
-            onChange={onChangeInput}
-            value={input}
-            width="75%"
-            height="200px"
-            name="editor"
-            editorProps={{ $blockScrolling: true }}
-          />
-          <Text mb="2">Output</Text>
-          <Box
-            borderWidth="1px"
-            borderRadius="md"
-            p="2"
-            h="200px"
-            w="75%"
-            overflowY="scroll"
-          >
-            {consoleLogs.map((log, index) => (
-              <Text key={index}>{log}</Text>
-            ))}
-          </Box>
-        </Stack>
-      </Flex>
+            <Flex mt="4">
+              <Button onClick={handleExecute}>Run</Button>
+              <IconButton
+                ml="2"
+                aria-label="Reset Code"
+                icon={<MdRefresh />}
+                onClick={handleReset}
+              />
+            </Flex>
+          </Stack>
+          <Stack w={["100%", "50%"]} p="2">
+            <Text mb="2">Input</Text>
+            <AceEditor
+              mode="python"
+              theme="monokai"
+              onChange={onChangeInput}
+              value={input}
+              width="75%"
+              height="200px"
+              name="editor"
+              editorProps={{ $blockScrolling: true }}
+            />
+            <Text mb="2">Output</Text>
+            <Box
+              borderWidth="1px"
+              borderRadius="md"
+              p="2"
+              h="200px"
+              w="75%"
+              overflowY="scroll"
+            >
+              {consoleLogs.map((log, index) => (
+                <Text key={index}>{log}</Text>
+              ))}
+            </Box>
+          </Stack>
+        </Flex>
+      </Box>
     </Box>
   );
 };

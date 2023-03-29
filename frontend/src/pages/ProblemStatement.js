@@ -6,8 +6,7 @@ import { Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const ProblemStatement = () => {
-
-  const [data, setData] = useState([]);  
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const userD = JSON.parse(localStorage.getItem("user"));
@@ -38,7 +37,7 @@ const ProblemStatement = () => {
     } else {
       navigate(`/room/${room_id}`);
 
-     navigate("/problems");
+      navigate("/problems");
     }
   };
   useEffect(() => {
