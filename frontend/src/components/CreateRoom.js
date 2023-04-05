@@ -6,7 +6,7 @@ import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const userName = localStorage.getItem("username");
-const CreateRoom = (props) => {
+const CreateRoom = () => {
   //   const [name, setUserName] = useState(false);
   // states
   const [roomLimit, setRoomLimit] = useState("");
@@ -42,16 +42,16 @@ const CreateRoom = (props) => {
           alert("Looks like some error occured");
         } else {
           const userData = {
-            UserName: res.data.members[0].name,
-            UserId: res.data.members[0].userId,
-            RoomName: res.data.roomName,
-            RoomId: res.data.roomId,
+            userName: res.data.members[0].name,
+            userId: res.data.members[0].userId,
+            roomName: res.data.roomName,
+            roomId: res.data.roomId,
           };
 
-          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("username", JSON.stringify(userData));
 
-          // console.log("room is created!!!!!!!!!");
-          // alert(`Room is created & Room ID is ${res.data.roomId}`);
+          const user = JSON.parse(localStorage.getItem("username"));
+          const userName = user.userName
           navigate("/problems");
         }
       })

@@ -9,9 +9,10 @@ const ProblemStatement = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
-  const userD = JSON.parse(localStorage.getItem("user"));
-  const room_id = userD.RoomId;
-  console.log(room_id);
+  const userD = JSON.parse(localStorage.getItem("username"));
+  console.log(userD)
+  const room_id = userD.roomId;
+  // console.log(room_id);
   const handleSelect = (id) => {
     console.log(userD);
     if (
@@ -23,19 +24,16 @@ const ProblemStatement = () => {
       };
 
       axios
-        .post("/api/problem/select", data)
+        .post("/api/problem/select", data)                  //set problem for the room 
         .then((response) => {
-          // Handle successful response
           console.log(response);
         })
         .catch((error) => {
-          // Handle error
           console.error(error);
         });
 
       navigate("/room/" + room_id);
     } else {
-      navigate(`/room/${room_id}`);
 
       navigate("/problems");
     }

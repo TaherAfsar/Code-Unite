@@ -3,9 +3,7 @@ const Room = require("../models/room");
 const getAllProblems = async (req, res) => {
   const allProblems = await Problem.find({});
   // await Problem.findByIdAndDelete(problem.id) -> delete incomplete problems
-  for (var problem of allProblems) {
-    console.log(problem.testcases);
-  }
+  
   res.send(allProblems);
 };
 

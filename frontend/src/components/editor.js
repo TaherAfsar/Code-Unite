@@ -56,6 +56,10 @@ const Editor = () => {
     setCode(defaultCode);
     setConsoleLogs([]);
   };
+
+
+
+  
   // fetch(`${PROXY_URL}"http://localhost:5000/api/editor/problemId"`, {
   //   method: "POST",
   //   headers: {

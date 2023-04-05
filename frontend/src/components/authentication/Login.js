@@ -53,9 +53,9 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("username", JSON.stringify(data));
       setLoading(false);
-      navigate("/home");
+      navigate("/createroom");
     } catch (error) {
       toast({
         title: "Error Occured!",

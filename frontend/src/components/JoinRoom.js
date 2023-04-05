@@ -6,16 +6,16 @@ import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-const userName = localStorage.getItem("username");
+
 const JoinRoom = (props) => {
   const [roomId, setRoomId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("username"));
  
-  
+  console.log(user)
   const formSubmitEventHandler = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-
+  
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -25,7 +25,7 @@ const JoinRoom = (props) => {
       .post(
         "/api/room/joinroom",
         {
-          userName,
+          // userName,
           roomId,
           password: password,
           // user,
@@ -40,14 +40,13 @@ const JoinRoom = (props) => {
           console.log(res.data.error);
         } else {
           if (res.data.UserId) {
-            localStorage.setItem("user", JSON.stringify(res.data));
+            localStorage.setItem("username", JSON.stringify(res.data));
           }
           //alert(res.data)
           console.log(res.data);
           console.log(roomId);
           navigate(`/room/${roomId}`);
 
-          // return <Redirect to={`/room/${roomId}`} />;
         }
       })
       .catch((err) => {
@@ -55,7 +54,7 @@ const JoinRoom = (props) => {
         console.log(err);
       });
   };
-  if (userName != null) {
+  if (user != null) {
     return (
       <center>
         <Container maxW={"xl"} centerContent>

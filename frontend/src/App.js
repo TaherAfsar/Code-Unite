@@ -1,11 +1,10 @@
-import { Button } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Homepage from "./pages/Homepage";
 import JoinRoom from "./components/JoinRoom";
 import CreateRoom from "./components/CreateRoom";
 import ProblemStatement from "./pages/ProblemStatement";
-import Home from "./components/Home";
+import Signout from "./components/authentication/Signout";
 import NavBar from "./components/navbar";
 import Editor from "./components/editor";
 import { Room } from "./components/Room";
@@ -14,9 +13,9 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-      <Route path="/" element={<Home/>}  />
+      <Route path="/" element={<Homepage/>}  />
       <Route path="/login" element={<Homepage/>}  />
-      {/* <Route path="/home" element={<Home/>} /> */}
+      <Route path="signout" element={<Signout/>} />
       <Route path="/joinroom" element={<JoinRoom/>} />
       <Route path="/createroom" element={<CreateRoom/>} />
       <Route path="/problems" element={<ProblemStatement/>} />

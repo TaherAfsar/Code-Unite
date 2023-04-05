@@ -1,11 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const mongoose = require("mongoose");
 const colors = require("colors");
 const userRoutes = require("./routes/userRoutes");
-const chatRoutes = require("./routes/chatRoutes");
 const problemRoutes = require("./routes/problem");
 const room = require("./routes/room");
 const editor = require("./routes/editorRoutes");
@@ -31,7 +29,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
-app.use("/api/chat", chatRoutes);
 app.use("/api/problem", problemRoutes);
 app.use("/api/room", room);
 app.use("/api/editor", editor);

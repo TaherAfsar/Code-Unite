@@ -16,6 +16,7 @@ const Room = require("../models/room");
 // };
 const getProblemId = async (req, res) => {
   const { id } = req.body;
+
   // console.log(id);
   try {
     const room = await Room.findOne({ roomId: id }).select({

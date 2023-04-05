@@ -86,10 +86,10 @@ const joinRoom = async (req, res) => {
           );
 
           res.status(200).json({
-            UserId: newUser.userId,
-            UserName: newUser.name,
-            RoomId: roomId,
-            RoomName: room.roomName,
+            userId: newUser.userId,
+            userName: newUser.name,
+            roomId: roomId,
+            roomName: room.roomName,
           });
           console.log(join_room);
         } catch (error) {
