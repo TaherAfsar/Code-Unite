@@ -91,7 +91,7 @@ const CreateRoom = () => {
                   <FormControl id="Name">
                     <FormLabel>Room Name:</FormLabel>
                     <Input
-                      placeholder="Enter Your UserName"
+                      placeholder="Enter Your roomname"
                       value={roomName}
                       onChange={(e) => setRoomName(e.target.value)}
                     />

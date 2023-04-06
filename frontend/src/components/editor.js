@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import React from "react";
 import {
   Box,
@@ -19,7 +19,7 @@ import { socket_global } from "../utils/sockets.js";
 import { useLocation } from "react-router-dom";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
-
+import API from "../utils/axiosInstance.js";
 const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
 const API_URL = "https://api.jdoodle.com/v1/execute";
 
@@ -92,6 +92,7 @@ const Editor = () => {
     }),
   })
     .then((response) => response.json())
+
     .then((data) => {
       setProblemId(data.problem_id);
 
@@ -103,15 +104,13 @@ const Editor = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-            console.log( typeof(data))
             setProblemStatement(Object.values(data))
-            console.log(problemStatement)
         })
         .catch((error) => console.error(error));
 
 
     })
-    .catch((error) => console.error(error));
+    .catch((error) => console.error('---------------------------'+error));
 
   
 
@@ -120,7 +119,6 @@ const Editor = () => {
 
   const handleExecute = async () => {
     setConsoleLogs([]);
-
     try {
       let program = {
         script: code,
@@ -144,15 +142,6 @@ const Editor = () => {
           script: { code },
         };
       }
-
-      //  else if (language === "java") {
-      //   program = {
-      //     ...program,
-      //     stdin: input,
-      //     versionIndex: "3",
-      //     script: `public class Main { public static void main(String[] args) { ${code} } }`,
-      //   };
-      // }
       else if (language === "nodejs") {
         program = {
           ...program,
@@ -197,18 +186,46 @@ const Editor = () => {
         };
       }
 
-      const response = await fetch(`${PROXY_URL}${API_URL}`, {
-        method: "POST",
+      // const response = await fetch(`${PROXY_URL}${API_URL}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "Access-Control-Allow-Origin": "*",           //Accept request from everyone
+      //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      //   },
+      //   body: JSON.stringify(program),
+      // });
+
+      // const data = await response.json();
+      // setConsoleLogs([data.output]);
+      const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
         },
-        body: JSON.stringify(program),
-      });
+      };
 
-      const data = await response.json();
+         axios.post(
+          "http://localhost:5000/api/editor/execute/",
+          program
+            ).then((response)=>{console.log(response+"1st")}).catch((error)=>{console.log(error)})
 
-      setConsoleLogs([data.output]);
-    } catch (error) {
+         const data = await axios.post(
+          "http://localhost:5000/api/editor/execute/",
+          program,
+          config
+        );
+         console.log(data)
+         
+
+     
+      // setConsoleLogs([data.output])
+
+
+    } 
+    
+    
+    catch (error) {
+      console.log('-------------------------------------------------------------------------------')
       console.error(error);
       toast({
         title: "Error",

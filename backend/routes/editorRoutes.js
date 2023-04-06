@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const getProblemId = require("../controllers/editor");
-
+const {getProblemId, execute} = require("../controllers/editor");
 router.post("/problemId", getProblemId);
-
+router.post("/execute",execute)
 module.exports = router;

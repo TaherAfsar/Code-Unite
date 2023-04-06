@@ -34,5 +34,20 @@ const getProblemId = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+const execute =  async(req, res) => {
+  const program = req.body;
+  console.log(program)
+const API_URL = "https://api.jdoodle.com/v1/execute";
 
-module.exports = getProblemId;
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+
+    },
+    body: JSON.stringify(program),
+  });
+  const data = await response.json();
+  res.status(200).json(data);
+}
+module.exports = {getProblemId, execute};
