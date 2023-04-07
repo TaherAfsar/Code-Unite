@@ -113,7 +113,7 @@ const Editor = () => {
   //   });
   useEffect(() => {
     //Runs on every render
-    fetch(`http://43.204.63.149/api/editor/problemId`, {
+    fetch(`http://43.204.63.149:5000/api/editor/problemId`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
