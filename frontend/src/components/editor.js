@@ -237,7 +237,7 @@ const Editor = () => {
       //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
 
       const data = await axios.post(
-        "http://localhost:5000/api/editor/execute/",
+        "http://43.204.63.149:5000/api/editor/execute/",
         program,
         config
       );
