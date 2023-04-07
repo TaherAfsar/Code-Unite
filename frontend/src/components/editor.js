@@ -276,9 +276,12 @@ const Editor = () => {
         borderRadius={"10px"}
         borderWidth="3"
       >
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement==[]?"Getting to know CodeUnite":problemStatement[7]}
-        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[1]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[2]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[4]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[5]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[6]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[7]}</Text>
       </Box>
       <Box w="100%" p="4" backgroundColor={"#9840db"}>
         <Flex direction={["column", "row"]}>
