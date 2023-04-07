@@ -13,7 +13,7 @@ import {
   useToast,
   Container,
 } from "@chakra-ui/react";
-import { ButtonGroup } from '@chakra-ui/react'
+import { ButtonGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { MdRefresh } from "react-icons/md";
@@ -42,30 +42,25 @@ const Editor = () => {
   const navigate = useNavigate();
 
   const leaveroom = async () => {
-    
-    
-    const user = JSON.parse(localStorage.getItem('username'));
-    const userName = user.userName
-    const { data } = await axios.put(
-      "/api/room/removeuser",
-      
-    );
-  }
+    const user = JSON.parse(localStorage.getItem("username"));
+    const userName = user.userName;
+    const { data } = await axios.put("/api/room/removeuser");
+  };
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
   const onChangeEditor = (e) => {
     setCode(e);
-    socket_global.emit("editor", e,roomId);
+    socket_global.emit("editor", e, roomId);
   };
   const onChangeInput = (e) => {
     setInput(e);
   };
   useEffect(() => {
-    socket_global.on("editor", (msg,id) => {
-      if(id==roomId){
+    socket_global.on("editor", (msg, id) => {
+      if (id == roomId) {
         setCode(msg);
-      }      
+      }
     });
   });
   const handleReset = () => {
@@ -76,32 +71,26 @@ const Editor = () => {
   const submit = () => {
     let output = problemStatement[7].substring(7);
 
-   if(consoleLogs==output)
-  {
-    toast({
-      title: "Accepted",
-      status: "success",
-      duration: 1000,
-      isClosable: true,
-      position: "bottom",
-    });
-    console.log("true")
-  }
-  else{
-    toast({
-      title: "Rejected",
-      status: "warning",
-      duration: 1000,
-      isClosable: true,
-      position: "bottom",
-    });
-  }
-
+    if (consoleLogs == output) {
+      toast({
+        title: "Accepted",
+        status: "success",
+        duration: 1000,
+        isClosable: true,
+        position: "bottom",
+      });
+      console.log("true");
+    } else {
+      toast({
+        title: "Rejected",
+        status: "warning",
+        duration: 1000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
-
-
-  
   // fetch(`${PROXY_URL}"http://localhost:5000/api/editor/problemId"`, {
   //   method: "POST",
   //   headers: {
@@ -124,41 +113,34 @@ const Editor = () => {
   //   });
   useEffect(() => {
     //Runs on every render
-    fetch(`http://localhost:5000/api/editor/problemId`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: roomId,
-    }),
-  })
-    .then((response) => response.json())
-
-    .then((data) => {
-    
-      setProblemId(data.problem_id);
-
-      fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-            setProblemStatement(Object.values(data))
-        })
-        .catch((error) => console.error(error));
-       
-
+    fetch(`http://43.204.63.149/api/editor/problemId`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: roomId,
+      }),
     })
-    .catch((error) => console.error('---------------------------'+error));
+      .then((response) => response.json())
 
-  
+      .then((data) => {
+        setProblemId(data.problem_id);
 
-  },[]);
-  
+        fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setProblemStatement(Object.values(data));
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error("---------------------------" + error));
+  }, []);
 
   const handleExecute = async () => {
     setConsoleLogs("");
@@ -184,8 +166,7 @@ const Editor = () => {
           versionIndex: "3",
           script: { code },
         };
-      }
-      else if (language === "nodejs") {
+      } else if (language === "nodejs") {
         program = {
           ...program,
           stdin: input,
@@ -247,28 +228,23 @@ const Editor = () => {
         },
       };
 
-      
-        //  axios.post(
-        //   "http://localhost:5000/api/editor/execute/",
-        //   program
-        //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
+      //  axios.post(
+      //   "http://localhost:5000/api/editor/execute/",
+      //   program
+      //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
 
-         const data = await axios.post(
-          "http://localhost:5000/api/editor/execute/",
-          program,
-          config
-        );
-        //  console.log(data.data.output)
-         
+      const data = await axios.post(
+        "http://localhost:5000/api/editor/execute/",
+        program,
+        config
+      );
+      //  console.log(data.data.output)
 
-      setConsoleLogs(data.data.output)
-
-
-    } 
-    
-    
-    catch (error) {
-      console.log('-------------------------------------------------------------------------------')
+      setConsoleLogs(data.data.output);
+    } catch (error) {
+      console.log(
+        "-------------------------------------------------------------------------------"
+      );
       console.error(error);
       toast({
         title: "Error",
@@ -292,12 +268,24 @@ const Editor = () => {
         borderRadius={"10px"}
         borderWidth="3"
       >
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[1]}</Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[2]}</Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[4]}</Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[5]}</Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[6]}</Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">{problemStatement[7]}</Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[1]}
+        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[2]}
+        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[4]}
+        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[5]}
+        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[6]}
+        </Text>
+        <Text fontSize="" fontFamily="Work sans" color="white">
+          {problemStatement[7]}
+        </Text>
       </Box>
       <Box w="100%" p="4" backgroundColor={"#9840db"}>
         <Flex direction={["column", "row"]}>
@@ -315,7 +303,9 @@ const Editor = () => {
                 <option value="swift">Swift</option>
                 <option value="php">Php</option>
               </Select>
-              <Button colorScheme="red" onClick={leaveroom}>Leave room</Button>
+              <Button colorScheme="red" onClick={leaveroom}>
+                Leave room
+              </Button>
             </Flex>
             <AceEditor
               mode="python"
@@ -335,7 +325,10 @@ const Editor = () => {
                 icon={<MdRefresh />}
                 onClick={handleReset}
               />
-              <Button colorScheme='teal' onClick={submit} > Submit</Button>
+              <Button colorScheme="teal" onClick={submit}>
+                {" "}
+                Submit
+              </Button>
             </Flex>
           </Stack>
           <Stack w={["100%", "50%"]} p="2">
@@ -359,12 +352,12 @@ const Editor = () => {
               w="75%"
               overflowY="scroll"
             >
-             <Text>{consoleLogs}</Text>
+              <Text>{consoleLogs}</Text>
             </Box>
           </Stack>
-        </Flex> 
+        </Flex>
       </Box>
-     </Box>
+    </Box>
   );
 };
 
