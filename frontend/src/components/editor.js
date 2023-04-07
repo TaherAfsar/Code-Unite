@@ -41,14 +41,15 @@ const Editor = () => {
   const roomId = currentUrl.substring(6);
   const navigate = useNavigate();
 
-  const leaveroom = () => {
+  const leaveroom = async () => {
     
     
     const user = JSON.parse(localStorage.getItem('username'));
-    console.log(user.userName)
-    console.log(user.userName)
-    console.log(123)
-    console.log(123)
+    const userName = user.userName
+    const { data } = await axios.put(
+      "/api/room/removeuser",
+      
+    );
   }
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
@@ -135,11 +136,7 @@ const Editor = () => {
     .then((response) => response.json())
 
     .then((data) => {
-      if((data.problem_id)=='')
-      {
-        alert('Problem statement is not set for this room')
-        navigate('/joinroom')
-      }
+    
       setProblemId(data.problem_id);
 
       fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
@@ -153,7 +150,7 @@ const Editor = () => {
             setProblemStatement(Object.values(data))
         })
         .catch((error) => console.error(error));
-
+       
 
     })
     .catch((error) => console.error('---------------------------'+error));

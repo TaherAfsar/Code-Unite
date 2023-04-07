@@ -172,7 +172,7 @@ const removeMember = async (req, res) => {
   const result = await Room.updateOne(
     { roomId: req.body.roomId },
     {
-      $pull: { members: { userId: req.body.userId } },
+      $pull: { members: { name: req.body.name } },
     },
     { new: true }
   );
