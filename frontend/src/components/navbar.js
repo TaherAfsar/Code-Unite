@@ -27,8 +27,9 @@ function NavBar() {
         <Stack direction="row" spacing="7" fontWeight={'bold'} >
           <Link to="/joinroom">Join Room</Link>
           <Link to="/createroom">Create Room</Link>
-          {/* <Link to="/signout">Signout</Link> */}
-          <Box bg="#9840db" color="#1c1d1f" onClick={Signout} style={{cursor:"pointer"}}>Signout</Box>
+      
+          <Link to="/" onClick={()=>{localStorage.removeItem("username"); window.location.reload(); console.log(localStorage.getItem("username"))}}>Signout</Link>
+          {/* <Box bg="#9840db" color="#1c1d1f" onClick={Signout} style={{cursor:"pointer"}}>Signout</Box> */}
         
           <Link to="../pages/">
           <Image width={'50px'} height={'50px'} alt='logo' src={profileIcon4} mt = '-15px'/>

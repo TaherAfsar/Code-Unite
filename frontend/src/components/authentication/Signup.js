@@ -69,9 +69,11 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("username", JSON.stringify(data));
       setPicLoading(false);
-      navigate("/home");
+      navigate("/");
+      window.location.reload()
+
     } catch (error) {
       toast({
         title: "Error Occured!",

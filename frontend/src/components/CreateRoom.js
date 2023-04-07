@@ -1,23 +1,26 @@
 import { Box, Container, Text, TabPanels, Tabs } from "@chakra-ui/react";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const userName = localStorage.getItem("username");
 const CreateRoom = () => {
-  //   const [name, setUserName] = useState(false);
-  // states
+
   const [roomLimit, setRoomLimit] = useState("");
   const [roomName, setRoomName] = useState("");
   // const[roomId, setRoomId] = useState('')
   const [roomPassword, setRoomPassword] = useState("");
-  console.log(userName);
-  //   const setUserNameEventHandler = (e) => {
-  //     setUserName(e.target.value);
-  //   };
   const navigate = useNavigate();
+
+  console.log(userName);
+  useEffect(()=>{
+    if(userName==null)
+   {
+    navigate('/login')
+   }
+  })
   const formSubmitEventHandler = () => {
     const config = {
       headers: {
@@ -131,9 +134,7 @@ const CreateRoom = () => {
         </Container>
       </center>
     );
-  } else {
-    navigate("/login");
-  }
+  } 
 };
 
 export default CreateRoom;

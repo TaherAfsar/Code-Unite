@@ -1,18 +1,27 @@
 import { Box, Container, Text, TabPanels, Tabs } from "@chakra-ui/react";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+const user = JSON.parse(localStorage.getItem("username"));
 
-const JoinRoom = (props) => {
+const JoinRoom = () => {
   const [roomId, setRoomId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("username"));
- const userName = user.userName
+  useEffect(()=>{
+    if(user==null)
+   {
+    navigate('/login')
+   }
+  })
+  var userName;
+  if(user){
+   userName= user.userName
+  }
   console.log(user)
   const formSubmitEventHandler = () => {
   

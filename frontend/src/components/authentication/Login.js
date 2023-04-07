@@ -31,7 +31,6 @@ const Login = () => {
       return;
     }
 
-    // console.log(username, password);
     try {
       const config = {
         headers: {
@@ -55,7 +54,9 @@ const Login = () => {
       });
       localStorage.setItem("username", JSON.stringify(data));
       setLoading(false);
+
       navigate("/createroom");
+      window.location.reload()
     } catch (error) {
       toast({
         title: "Error Occured!",
