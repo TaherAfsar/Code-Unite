@@ -13,6 +13,8 @@ import {
   useToast,
   Container,
 } from "@chakra-ui/react";
+import { ButtonGroup } from '@chakra-ui/react'
+
 import { MdRefresh } from "react-icons/md";
 import AceEditor from "react-ace";
 import { socket_global } from "../utils/sockets.js";
@@ -30,7 +32,7 @@ const Editor = () => {
   const [problemId, setProblemId] = useState("");
   const [code, setCode] = useState(defaultCode);
   const [language, setLanguage] = useState("python3");
-  const [consoleLogs, setConsoleLogs] = useState([]);
+  const [consoleLogs, setConsoleLogs] = useState("");
   const [input, setInput] = useState("");
   const toast = useToast();
   const location = useLocation();
@@ -56,7 +58,30 @@ const Editor = () => {
   });
   const handleReset = () => {
     setCode(defaultCode);
-    setConsoleLogs([]);
+    setConsoleLogs("");
+  };
+
+  const submit = () => {
+    let output = problemStatement[7].substring(7);
+
+   if(consoleLogs==output)
+  {
+    toast({
+      title: "Accepted",
+      status: "success",
+      duration: 1000,
+      isClosable: true,
+      position: "bottom",
+    });
+    console.log("true")
+  }
+  else{
+    console.log('----------------------------------------')
+    console.log(consoleLogs)
+    console.log(output)
+    console.log(problemStatement)
+  }
+
   };
 
 
@@ -120,7 +145,7 @@ const Editor = () => {
   
 
   const handleExecute = async () => {
-    setConsoleLogs([]);
+    setConsoleLogs("");
     try {
       let program = {
         script: code,
@@ -220,8 +245,7 @@ const Editor = () => {
         //  console.log(data.data.output)
          
 
-     
-      setConsoleLogs([data.data.output])
+      setConsoleLogs(data.data.output)
 
 
     } 
@@ -253,7 +277,7 @@ const Editor = () => {
         borderWidth="3"
       >
         <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement==[]?"Getting to know CodeUnite":problemStatement[2]}
+          {problemStatement==[]?"Getting to know CodeUnite":problemStatement[7]}
         </Text>
       </Box>
       <Box w="100%" p="4" backgroundColor={"#9840db"}>
@@ -291,6 +315,7 @@ const Editor = () => {
                 icon={<MdRefresh />}
                 onClick={handleReset}
               />
+              <Button colorScheme='teal' onClick={submit} > Submit</Button>
             </Flex>
           </Stack>
           <Stack w={["100%", "50%"]} p="2">
@@ -314,14 +339,12 @@ const Editor = () => {
               w="75%"
               overflowY="scroll"
             >
-              {consoleLogs.map((log, index) => (
-                <Text key={index}>{log}</Text>
-              ))}
+             <Text>{consoleLogs}</Text>
             </Box>
           </Stack>
-        </Flex>
+        </Flex> 
       </Box>
-    </Box>
+     </Box>
   );
 };
 
