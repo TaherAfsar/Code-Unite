@@ -127,12 +127,15 @@ const Editor = () => {
       .then((data) => {
         setProblemId(data.problem_id);
 
-        fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        fetch(
+          `http://43.204.63.149:5000/api/problem//fetch/${data.problem_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             setProblemStatement(Object.values(data));
