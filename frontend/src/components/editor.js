@@ -128,7 +128,7 @@ const Editor = () => {
         setProblemId(data.problem_id);
 
         fetch(
-          `http://43.204.63.149:5000/api/problem//fetch/${data.problem_id}`,
+          `http://43.204.63.149:5000/api/problem/fetch/${data.problem_id}`,
           {
             method: "GET",
             headers: {
