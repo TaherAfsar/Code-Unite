@@ -2,14 +2,7 @@ import { Box, Flex, Spacer, Stack, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import logo1 from "../assets/logo1.png";
 import profileIcon4 from "../assets/profileIcon4.png";
-import { useNavigate } from 'react-router-dom';
 
-const Signout = () => {
-  alert(1)
-
-  const {navigate} = useNavigate();
-    navigate("/");
-      }
 function NavBar() {
 
   const user = JSON.parse(localStorage.getItem("username"));
@@ -28,7 +21,17 @@ function NavBar() {
           <Link to="/joinroom">Join Room</Link>
           <Link to="/createroom">Create Room</Link>
       
-          <Link to="/" onClick={()=>{localStorage.removeItem("username"); window.location.reload(); console.log(localStorage.getItem("username"))}}>Signout</Link>
+          <Link to="/" onClick={()=>{localStorage.removeItem("username"); window.location.reload();
+          
+          
+          
+          
+          
+          
+          
+          
+          
+           console.log(localStorage.getItem("username"))}}>Signout</Link>
           {/* <Box bg="#9840db" color="#1c1d1f" onClick={Signout} style={{cursor:"pointer"}}>Signout</Box> */}
         
           <Link to="../pages/">

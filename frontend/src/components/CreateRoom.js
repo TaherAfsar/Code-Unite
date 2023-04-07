@@ -5,7 +5,13 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const userName = localStorage.getItem("username");
+const username = JSON.parse(localStorage.getItem("username"));
+var userName
+if(username)
+{
+  userName = username.userName
+  console.log(username.userName)
+}
 const CreateRoom = () => {
 
   const [roomLimit, setRoomLimit] = useState("");
@@ -13,14 +19,13 @@ const CreateRoom = () => {
   // const[roomId, setRoomId] = useState('')
   const [roomPassword, setRoomPassword] = useState("");
   const navigate = useNavigate();
-
-  console.log(userName);
   useEffect(()=>{
-    if(userName==null)
+    if(username==null)
    {
-    navigate('/login')
+    navigate('/login')  
    }
   })
+
   const formSubmitEventHandler = () => {
     const config = {
       headers: {
@@ -54,7 +59,6 @@ const CreateRoom = () => {
           localStorage.setItem("username", JSON.stringify(userData));
 
           const user = JSON.parse(localStorage.getItem("username"));
-          const userName = user.userName
           navigate("/problems");
         }
       })
@@ -62,7 +66,7 @@ const CreateRoom = () => {
         alert("Looks like some error occured");
       });
   };
-  if (userName != null) {
+  
     return (
       <center>
         <Container maxW={"xl"} centerContent>
@@ -134,7 +138,7 @@ const CreateRoom = () => {
         </Container>
       </center>
     );
-  } 
+  
 };
 
 export default CreateRoom;

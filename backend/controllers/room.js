@@ -23,6 +23,7 @@ if (nanoid) {
 
 const Room = require("../models/room");
 const createRoom = async (req, res) => {
+  console.log(req.body)
   const { userName, roomName, password, roomLimit } = req.body;
   if (!userName || !roomName || !password) {
     res.status(422).json({ error: "please add all field" });

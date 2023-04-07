@@ -14,6 +14,7 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { ButtonGroup } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
 import { MdRefresh } from "react-icons/md";
 import AceEditor from "react-ace";
@@ -38,7 +39,17 @@ const Editor = () => {
   const location = useLocation();
   const currentUrl = location.pathname;
   const roomId = currentUrl.substring(6);
+  const navigate = useNavigate();
 
+  const leaveroom = () => {
+    
+    
+    const user = JSON.parse(localStorage.getItem('username'));
+    console.log(user.userName)
+    console.log(user.userName)
+    console.log(123)
+    console.log(123)
+  }
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
@@ -76,10 +87,13 @@ const Editor = () => {
     console.log("true")
   }
   else{
-    console.log('----------------------------------------')
-    console.log(consoleLogs)
-    console.log(output)
-    console.log(problemStatement)
+    toast({
+      title: "Rejected",
+      status: "warning",
+      duration: 1000,
+      isClosable: true,
+      position: "bottom",
+    });
   }
 
   };
@@ -121,6 +135,11 @@ const Editor = () => {
     .then((response) => response.json())
 
     .then((data) => {
+      if((data.problem_id)=='')
+      {
+        alert('Problem statement is not set for this room')
+        navigate('/joinroom')
+      }
       setProblemId(data.problem_id);
 
       fetch(`http://localhost:5000/api/problem//fetch/${data.problem_id}`, {
@@ -299,6 +318,7 @@ const Editor = () => {
                 <option value="swift">Swift</option>
                 <option value="php">Php</option>
               </Select>
+              <Button colorScheme="red" onClick={leaveroom}>Leave room</Button>
             </Flex>
             <AceEditor
               mode="python"
