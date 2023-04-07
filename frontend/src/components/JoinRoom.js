@@ -12,7 +12,7 @@ const JoinRoom = (props) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("username"));
- 
+ const userName = user.userName
   console.log(user)
   const formSubmitEventHandler = () => {
   
@@ -25,7 +25,7 @@ const JoinRoom = (props) => {
       .post(
         "/api/room/joinroom",
         {
-          // userName,
+          userName,
           roomId,
           password: password,
           // user,
