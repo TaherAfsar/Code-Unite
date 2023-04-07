@@ -18,13 +18,13 @@ const io = require("socket.io")(8900, {
     });
   
     // listen for event in editor
-    socket.on("editor", (val) => {
-      io.emit("editor", val);
+    socket.on("editor", (val,roomId) => {
+      console.log(val,roomId)
+      io.emit("editor", val,roomId);
     });
   
     // listen for event in output editor
     socket.on("output", (val) => {
-      console.log(val);
       io.emit("output", val);
     });
   

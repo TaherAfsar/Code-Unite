@@ -25,27 +25,8 @@ app.use(express.json()); // to accept json data
 app.use(cors(corsOptions))
 
 app.get("/", async (req, res) => {
-  let program = {
-    script: 'print("hello world");',
-    language: "python3",
-    versionIndex: "0",
-    clientId: "5715b31dddb014988ed4e6b8f1409111",
-    clientSecret:
-      "d5568ed6f786da78557ab96e073907847f007e721bb0f53effd40b4870caaa84",
-  };
-const API_URL = "https://api.jdoodle.com/v1/execute";
-
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-
-    },
-    body: JSON.stringify(program),
-  });
-
-  const data = await response.json();
-  res.send(data);
+ 
+  res.send("Server running");
 });
 
 app.use("/api/user", userRoutes);

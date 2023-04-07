@@ -42,14 +42,16 @@ const Editor = () => {
   };
   const onChangeEditor = (e) => {
     setCode(e);
-    socket_global.emit("editor", e);
+    socket_global.emit("editor", e,roomId);
   };
   const onChangeInput = (e) => {
     setInput(e);
   };
   useEffect(() => {
-    socket_global.on("editor", (msg) => {
-      setCode(msg);
+    socket_global.on("editor", (msg,id) => {
+      if(id==roomId){
+        setCode(msg);
+      }      
     });
   });
   const handleReset = () => {
@@ -204,21 +206,22 @@ const Editor = () => {
         },
       };
 
-         axios.post(
-          "http://localhost:5000/api/editor/execute/",
-          program
-            ).then((response)=>{console.log(response+"1st")}).catch((error)=>{console.log(error)})
+      
+        //  axios.post(
+        //   "http://localhost:5000/api/editor/execute/",
+        //   program
+        //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
 
          const data = await axios.post(
           "http://localhost:5000/api/editor/execute/",
           program,
           config
         );
-         console.log(data)
+        //  console.log(data.data.output)
          
 
      
-      // setConsoleLogs([data.output])
+      setConsoleLogs([data.data.output])
 
 
     } 
