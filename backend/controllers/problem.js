@@ -9,7 +9,6 @@ const getAllProblems = async (req, res) => {
 
 const getProblemById = async (req, res) => {
   const fetchId = req.params.id;
-  console.log(req.params.id)
   if(fetchId=='')
   {
     res.send({});

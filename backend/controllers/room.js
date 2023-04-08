@@ -142,7 +142,6 @@ const roomMembers = async (req, res) => {
       roomId: roomId,
     }).select({ members: 1, _id: 0 });
     res.status(200).json(room[0].members);
-    console.log(room[0].members)
   } catch (e) {
     res.status(500).json(e);
     console.log(e);

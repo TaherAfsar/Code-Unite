@@ -78,7 +78,7 @@ const ProblemStatement = () => {
           <Box
             d="flex"
             justifyContent="flex-start"
-            p={"3"}
+            p={"3"} 
             bg={"#9840db"}
             w="100%"
             mt={""}

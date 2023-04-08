@@ -36,7 +36,6 @@ const getProblemId = async (req, res) => {
 };
 const execute =  async (req, res) => {
   const program = req.body;
-  console.log(program)
 const API_URL = "https://api.jdoodle.com/v1/execute";
 
   const response = await fetch(API_URL, {

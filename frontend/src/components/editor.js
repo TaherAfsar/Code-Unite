@@ -53,16 +53,23 @@ const Editor = () => {
     userName = user.userName;
   }
 
-
-  useEffect(()=>{
+  useEffect(() => {
     axios
     .get(`http://43.204.63.149:5000/api/room/members/${roomId}`)
     .then(function (response) {
-      console.log('******************************************')
        
-      console.log(response.data)
-      setUsers([response.data])
+      // console.log(response.data)
+      setUsers(response.data)
+      console.log('******************************************')
+
+      console.log(users)
+  
     });
+  }, []);
+
+
+  useEffect(()=>{
+
     fetch(
       `http://43.204.63.149:5000/api/room/code/${roomId}`,
       {
@@ -88,6 +95,13 @@ const Editor = () => {
     navigate('/createroom')
     console.log(data)
   };
+
+  const removeUser = (event) => {
+    console.log(typeof(event.target.value) )
+    const user = event.target.value
+    socket_global.emit("remove",user,roomId );
+
+  }
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
@@ -104,12 +118,29 @@ const Editor = () => {
   const onChangeInput = (e) => {
     setInput(e);
   };
+
   useEffect(() => {
     socket_global.on("editor", (msg, id) => {
       if (id == roomId) {
         setCode(msg);
       }
     });
+
+    socket_global.on("remove",(val, id) => {
+      console.log(val + id)
+      console.log(89789798)
+      if (id == roomId && val==userName ) {
+        const name = val;
+        axios.post('http://43.204.63.149:5000/api/room/removeuser',{roomId,name})
+        .then(function (response) {
+           
+        });
+        // const data = await axios.post("http://43.204.63.149:5000/api/room/removeuser",{roomId,name});
+        // console.log(data)
+        navigate('/joinroom')
+      }
+    });
+
   });
   const handleReset = () => {
     setCode('print("hello world");');
@@ -383,16 +414,12 @@ const Editor = () => {
                   <option value="swift">Swift</option>
                   <option value="php">Php</option>
                 </Select>
-{/* 
-                <Select value={language} onChange={handleLanguageChange}>
-                
 
-
+                <Select onChange={removeUser}>
                 {users.map((user) => (
                 <option value={user.name}>{user.name }</option>
-                
-              ))}
-                </Select> */}
+                 ))}
+                </Select>
                 <Button colorScheme="red" onClick={leaveroom} size={"lg"}>
                 <Text fontSize='xs'>
 

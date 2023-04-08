@@ -22,10 +22,10 @@ const io = require("socket.io")(8900, {
       io.emit("editor", val,roomId);
     });
   
-    // listen for event in output editor
-    socket.on("output", (val) => {
-      io.emit("output", val);
+    socket.on("remove",(val,roomId) => {
+      io.emit("remove", val,roomId);
     });
+
   
     socket.on("join room", (roomID) => {
       if (users[roomID]) {
