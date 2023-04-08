@@ -52,7 +52,7 @@ const Editor = () => {
     setLanguage(event.target.value);
   };
   const onChangeEditor = (e) => {
-    setCode(e);
+    // setCode(e);
     socket_global.emit("editor", e, roomId);
   };
   const onChangeInput = (e) => {

@@ -16,9 +16,7 @@ const userName = localStorage.getItem("username");
 const Home = (props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    // console.log(userName)
   if (userName) {
-    // console.log(userName)
     navigate("/createroom");
    
   } 
