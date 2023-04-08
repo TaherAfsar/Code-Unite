@@ -12,6 +12,7 @@ import {
   Stack,
   useToast,
   Container,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { ButtonGroup } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +30,7 @@ const API_URL = "https://api.jdoodle.com/v1/execute";
 const defaultCode = 'print("hello world");';
 
 const Editor = () => {
+  const fontSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const [problemStatement, setProblemStatement] = useState([]);
   const [problemId, setProblemId] = useState("");
   const [code, setCode] = useState(defaultCode);
@@ -40,7 +42,7 @@ const Editor = () => {
   const currentUrl = location.pathname;
   const roomId = currentUrl.substring(6);
   const navigate = useNavigate();
-
+  const [output, setOutput] = useState("");
   const leaveroom = async () => {
     const user = JSON.parse(localStorage.getItem("username"));
     const userName = user.userName;
@@ -69,9 +71,11 @@ const Editor = () => {
   };
 
   const submit = () => {
-    let output = problemStatement[7].substring(7);
-
-    if (consoleLogs == output) {
+    // let output = problemStatement[7].substring(6);
+    console.log("break");
+    console.log(output);
+    console.log(consoleLogs);
+    if (consoleLogs.trim() == output) {
       toast({
         title: "Accepted",
         status: "success",
@@ -138,7 +142,11 @@ const Editor = () => {
         )
           .then((response) => response.json())
           .then((data) => {
+            console.log(data);
             setProblemStatement(Object.values(data));
+            console.log(Object.values(data)[6].substring(5));
+            setInput(Object.values(data)[6].substring(5));
+            setOutput(Object.values(data)[7].substring(6));
           })
           .catch((error) => console.error(error));
       })
@@ -257,6 +265,7 @@ const Editor = () => {
         isClosable: true,
       });
     }
+    console.log(problemStatement[6]);
   };
 
   return (
@@ -264,32 +273,47 @@ const Editor = () => {
       <Box
         d="flex"
         justifyContent="flex-start"
-        p={"3"}
-        bg={"#9840db"}
+        p="3"
+        bg="#9840db"
         w="100%"
         m="70px 0 15px 0"
-        borderRadius={"10px"}
+        borderRadius="10px"
         borderWidth="3"
       >
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[1]}
-        </Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[2]}
-        </Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[4]}
-        </Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[5]}
-        </Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[6]}
-        </Text>
-        <Text fontSize="" fontFamily="Work sans" color="white">
-          {problemStatement[7]}
-        </Text>
+        <Box w="100%" pr="5">
+          <Text
+            fontSize="2xl"
+            fontFamily="Work sans"
+            color="white"
+            fontWeight="bold"
+          >
+            {problemStatement.title}
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Difficulty: {problemStatement[3]}
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Title: {problemStatement[1]}
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Problem Statement: {problemStatement[2]}
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Input: {problemStatement[4]}
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Output: <Text color="green.200">{output}</Text>
+          </Text>
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+            Output Format: {problemStatement[5]}
+          </Text>
+
+          <Text fontSize="lg" fontFamily="Work sans" color="white" mt="4">
+            Testcases: <Text color="green.200">{input}</Text>
+          </Text>
+        </Box>
       </Box>
+
       <Box w="100%" p="4" backgroundColor={"#9840db"}>
         <Flex direction={["column", "row"]}>
           <Stack w={["100%", "50%"]} p="2">
@@ -306,9 +330,9 @@ const Editor = () => {
                 <option value="swift">Swift</option>
                 <option value="php">Php</option>
               </Select>
-              <Button colorScheme="red" onClick={leaveroom}>
+              {/* <Button colorScheme="red" onClick={leaveroom} size={fontSize}>
                 Leave room
-              </Button>
+              </Button> */}
             </Flex>
             <AceEditor
               mode="python"
@@ -328,7 +352,7 @@ const Editor = () => {
                 icon={<MdRefresh />}
                 onClick={handleReset}
               />
-              <Button colorScheme="teal" onClick={submit}>
+              <Button colorScheme="teal" ml="2" onClick={submit}>
                 {" "}
                 Submit
               </Button>
