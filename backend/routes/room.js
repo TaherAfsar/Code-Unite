@@ -7,6 +7,7 @@ const {
   setRoomLimit,
   roomMembers,
   removeMember,
+  getCode
 } = require("../controllers/room.js");
 const express = require("express");
 const router = express.Router();
@@ -20,6 +21,8 @@ router.post("/joinroom", joinRoom);
 // get rooms of a user
 router.get("/:userId", getRoomsOfUser);
 
+router.get("/code/:roomId", getCode);
+
 // post code to DB
 router.post("/code", codeSave);
 
@@ -29,6 +32,7 @@ router.put("/roomlimit", setRoomLimit);
 
 router.get("/members/:roomId", roomMembers);
 
-router.put("/removeuser", removeMember);
+router.post("/removeuser", removeMember);
+
 
 module.exports = router;

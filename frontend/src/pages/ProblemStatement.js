@@ -1,14 +1,14 @@
 import axios from "axios";
 import React from "react";
-import { Button } from "@chakra-ui/react";
-import { Box, Text } from "@chakra-ui/react";
-import { Container } from "react-bootstrap";
+import { Button } from "@chakra-ui/button";
+import { Box, Text } from "@chakra-ui/layout";
+import { Container } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 const ProblemStatement = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-
   const userD = JSON.parse(localStorage.getItem("username"));
   console.log(userD)
   const room_id = userD.roomId;
@@ -44,86 +44,99 @@ const ProblemStatement = () => {
       .then((data) => setData(data))
       .catch((error) => console.error(error));
   }, []);
-  console.log(data);
-
-  const background = {
-    backgroundColor: "#1c1d1f",
-  };
-
+  console.log(data,"77777777777777777777");
   const tableStyle = {
-    borderCollapse: "collapse",
-    width: "70%",
-    border: "5px solid #9840db",
-    padding: "100px",
+    width: "100%",
+    maxWidth: "800px",
+    margin: "auto",
+    border: "1px solid white",
+    borderRadius: "10px",
+    overflow: "hidden",
   };
 
   const thStyle = {
-    border: "2px solid #9840db",
-    padding: "8px",
+    padding: "1rem",
     textAlign: "center",
+    backgroundColor: "#9840db",
     color: "white",
+    fontWeight: "bold",
+    border: "1px solid white",
   };
 
   const tdStyle = {
-    border: "2px solid #9840db",
-    padding: "8px",
+    padding: "1rem",
     textAlign: "left",
+    backgroundColor: "#1c1d1f",
     color: "white",
+    border: "1px solid white",
   };
 
   return (
-    <body style={background}>
-      <Container>
-        <center>
-          <Box
-            d="flex"
-            justifyContent="flex-start"
-            p={"3"}
-            bg={"#9840db"}
-            w="100%"
-            mt={""}
-            mb="50px"
-            borderRadius={"10px"}
-            borderWidth="3"
-          >
-            <Text fontSize="3xl" fontFamily="Work sans" color="white">
-              Welcome to your Competetive Coding Journey.
-            </Text>
-          </Box>
-          <table style={tableStyle}>
-            <thead>
-              <tr>
-                <th style={thStyle}>Title</th>
-                <th style={thStyle}>Problem Statement</th>
-                <th style={thStyle}>Difficulty</th>
-                <th style={thStyle}>Selection</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((row) => (
-                <tr key={row.id}>
-                  <td style={tdStyle}>{row.title}</td>
-                  <td style={tdStyle}>{row.problem}</td>
-                  <td style={tdStyle}>{row.difficulty}</td>
-                  <td style={tdStyle}>
-                    <Button
-                      backgroundColor={"#9840db"}
-                      color="#1c1d1f"
-                      width={"80%"}
-                      style={{ marginTop: 20 }}
-                      onClick={() => handleSelect(row._id)}
-                    >
-                      Select
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </center>
-      </Container>
-    </body>
-  );
+    <Box bg="#1c1d1f" minH="100vh">
+      <Container maxW="container.lg" py="4">
+        <Box
+          d="flex"
+          justifyContent="flex-start"
+          bg={"#9840db"}
+          w="100%"
+          mb="4"
+          borderRadius={"10px"}
+          borderWidth="3"
+          p="4"
+          flexDirection={{ base: "column", md: "row" }}
+          alignItems={{ base: "flex-start", md: "center" }}
+          textAlign={{ base: "left", md: "center" }}
+        >
+          <Text fontSize="3xl" fontFamily="Work sans" color="white">
+            Welcome to your Competitive Coding Journey.
+          </Text>
+        </Box>
+        <Box style={tableStyle}>
+          <Box as="table" w="100%" borderSpacing="0">
+            <Box as="thead" bg="#9840db">
+              <Box as="tr" display={{ base: "none", md: "table-row" }}>
+                <Box as="th" style={thStyle}>
+                  Title
+                </Box>
+                <Box as="th" style={thStyle}>
+                  Problem Statement
+                </Box>
+                <Box as="th" style={thStyle}>
+                  Difficulty
+                </Box>
+                <Box as="th" style={thStyle}>
+Action
+</Box>
+</Box>
+</Box>
+<Box as="tbody">
+{data.map((item) => (
+<Box as="tr" key={item.id}>
+<Box as="td" style={tdStyle}>
+{item.title}
+</Box>
+<Box as="td" style={tdStyle}>
+{item.problem}
+</Box>
+<Box as="td" style={tdStyle}>
+{item.difficulty}
+</Box>
+<Box as="td" style={tdStyle}>
+<Button
+colorScheme="purple"
+onClick={() => handleSelect(item.id)}
+>
+Select
+</Button>
+</Box>
+</Box>
+))}
+</Box>
+</Box>
+</Box>
+</Container>
+</Box>
+);
 };
 
 export default ProblemStatement;

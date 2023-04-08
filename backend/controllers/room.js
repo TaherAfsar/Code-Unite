@@ -67,13 +67,12 @@ const joinRoom = async (req, res) => {
     res.status(422).json({ error: "Please add all fields" });
   } else {
     const room = await Room.findOne({ roomId: roomId });
-    const user = await Room.findOne({ userName: userName });
     if (!room) {
       res.status(422).json({ error: "Invalid Room Id or password" });
     } else if (room.isDeleted) {
       res.status(422).json({ error: "Room is deleted" });
     } else if (room.password === password) {
-      if (!user) {
+      
         try {
           const newUser = {
             userId: nanoid(4),
@@ -81,7 +80,7 @@ const joinRoom = async (req, res) => {
             isSuperUser: false,
           };
           const join_room = await Room.updateOne(
-            { _id: room._id },
+            { roomId: roomId },
             { $push: { members: newUser } },
             { new: true }
           );
@@ -96,40 +95,21 @@ const joinRoom = async (req, res) => {
         } catch (error) {
           res.status(422).json({ error: error.message });
         }
-      } else {
-        if (user.RoomId == roomId && user.UserName != userName) {
-          //console.log(`you have to login with this user name ${user.UserName}........ `)
-          res.status(400).json({
-            error: `you have to login with this user name ${user.UserName}`,
-          });
-        } else {
-          res.status(200).json({ msg: `joined room` });
-          console.log("room joined");
-        }
-      }
-    } else {
-      if (user.RoomId == roomId && user.UserName != userName) {
-        //console.log(`you have to login with this user name ${user.UserName}........ `)
-        res.status(400).json({
-          error: `you have to login with this user name ${user.UserName}`,
-        });
-      } else {
-        res.status(200).json({ msg: `joined room` });
-        console.log("room joined");
-      }
+      
+    } else{
+      res.status(422).json({ error: "Wrong password" });
+
     }
   }
 };
 
 const codeSave = async (req, res) => {
   const { roomId, code } = req.body;
-
   const result = await Room.findOneAndUpdate(
     { roomId: roomId },
     { $set: { code: code } },
     { new: true }
   );
-  console.log("code saved");
   res.status(200).json(result);
 
   return true;
@@ -161,6 +141,22 @@ const roomMembers = async (req, res) => {
     const room = await Room.find({
       roomId: roomId,
     }).select({ members: 1, _id: 0 });
+    res.status(200).json(room[0].members);
+    console.log(room[0].members)
+  } catch (e) {
+    res.status(500).json(e);
+    console.log(e);
+  }
+};
+
+const getCode = async (req, res) => {
+
+  const { roomId } = req.params;
+  try {
+    const room = await Room.find({
+      roomId: roomId,
+    }).select({ code: 1, _id: 0 });
+    console.log(room)
     res.status(200).json(room);
   } catch (e) {
     res.status(500).json(e);
@@ -169,10 +165,12 @@ const roomMembers = async (req, res) => {
 };
 
 const removeMember = async (req, res) => {
+  const { roomId, name } = req.body;
+
   const result = await Room.updateOne(
-    { roomId: req.body.roomId },
+    { roomId: roomId},
     {
-      $pull: { members: { name: req.body.name } },
+      $pull: { members: { name: name } },
     },
     { new: true }
   );
@@ -188,4 +186,5 @@ module.exports = {
   roomMembers,
   setRoomLimit,
   deleteRoom,
+  getCode
 };
