@@ -23,6 +23,10 @@ const problemSchema = mongoose.Schema({
   output: {
     type: String,
   },
+  byAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // model
