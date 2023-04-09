@@ -19,10 +19,19 @@ const JoinRoom = () => {
    }
   })
   var userName;
+  console.log(user)
   if(user){
+    if(user.username)
+    {
+      userName= user.username
+    }
+    else{
    userName= user.userName
+    }
+   console.log(user)
   }
   console.log(user)
+  console.log(userName)
   const formSubmitEventHandler = () => {
   
     const config = {

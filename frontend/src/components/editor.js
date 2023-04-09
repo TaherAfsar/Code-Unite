@@ -61,7 +61,6 @@ const Editor = () => {
       // console.log(response.data)
       setUsers(response.data)
       console.log('******************************************')
-
       console.log(users)
   
     });
@@ -69,7 +68,6 @@ const Editor = () => {
 
 
   useEffect(()=>{
-
     fetch(
       `http://43.204.63.149:5000/api/room/code/${roomId}`,
       {
@@ -85,7 +83,7 @@ const Editor = () => {
   
       })
       .catch((error) => console.error(error));
-  })
+  },[])
 
 
   const [output, setOutput] = useState("");
@@ -97,7 +95,6 @@ const Editor = () => {
   };
 
   const removeUser = (event) => {
-    console.log(typeof(event.target.value) )
     const user = event.target.value
     socket_global.emit("remove",user,roomId );
 
@@ -121,6 +118,7 @@ const Editor = () => {
 
   useEffect(() => {
     socket_global.on("editor", (msg, id) => {
+      console.log(msg)
       if (id == roomId) {
         setCode(msg);
       }

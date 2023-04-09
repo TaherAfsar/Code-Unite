@@ -9,7 +9,16 @@ const username = JSON.parse(localStorage.getItem("username"));
 var userName
 if(username)
 {
+
   userName = username.userName
+
+  if(username.username)
+    {
+  userName = username.username
+    }
+    else{
+   userName= username.userName
+    }
   console.log(username.userName)
 }
 const CreateRoom = () => {

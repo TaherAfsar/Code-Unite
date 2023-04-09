@@ -44,6 +44,7 @@ const Login = () => {
         config
       );
       localStorage.setItem("username", username);
+      console.log(localStorage.getItem("username"))
       // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
