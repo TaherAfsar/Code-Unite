@@ -34,6 +34,19 @@ const selectproblem = async (req, res) => {
   });
 };
 
+const deleteproblem = async (req, res) => {
+  const { problem_id } = req.body;
+  const filter = { _id: problem_id };
+  Problem.deleteOne(filter, (err, val) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.send(val);
+      console.log(` document(s) updated`);
+    }
+  });
+};
+
 const uploadProblem = async (req, res) => {
   console.log(req.body);
   const {
@@ -78,10 +91,18 @@ const uploadProblem = async (req, res) => {
     res.status(500).json(err);
   }
 };
+const adminProblem = async (req, res) => {
+  const adminPs = await Problem.find({ byAdmin: true });
+  // await Problem.findByIdAndDelete(problem.id) -> delete incomplete problems
+
+  res.send(adminPs);
+};
 
 module.exports = {
   getAllProblems,
   getProblemById,
   selectproblem,
   uploadProblem,
+  deleteproblem,
+  adminProblem,
 };

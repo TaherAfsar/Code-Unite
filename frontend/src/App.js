@@ -10,6 +10,7 @@ import NavBar from "./components/navbar";
 import Editor from "./components/editor";
 import { Room } from "./components/Room";
 import Admin from "./components/Admin";
+import AddProblem from "./components/addProblem";
 function App() {
   return (
     <div className="App">
@@ -23,6 +24,7 @@ function App() {
         <Route path="/problems" element={<ProblemStatement />} />
         <Route path="/room/:userId" element={<Room />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/addProblem" element={<AddProblem />} />
       </Routes>
     </div>
   );

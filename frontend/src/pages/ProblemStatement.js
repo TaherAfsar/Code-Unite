@@ -10,7 +10,7 @@ const ProblemStatement = () => {
   const navigate = useNavigate();
 
   const userD = JSON.parse(localStorage.getItem("username"));
-  console.log(userD)
+  console.log(userD);
   const room_id = userD.roomId;
   // console.log(room_id);
   const handleSelect = (id) => {
@@ -24,7 +24,7 @@ const ProblemStatement = () => {
       };
 
       axios
-        .post("/api/problem/select", data)                  //set problem for the room 
+        .post("/api/problem/select", data) //set problem for the room
         .then((response) => {
           console.log(response);
         })
@@ -34,7 +34,6 @@ const ProblemStatement = () => {
 
       navigate("/room/" + room_id);
     } else {
-
       navigate("/problems");
     }
   };
@@ -78,7 +77,7 @@ const ProblemStatement = () => {
           <Box
             d="flex"
             justifyContent="flex-start"
-            p={"3"} 
+            p={"3"}
             bg={"#9840db"}
             w="100%"
             mt={""}

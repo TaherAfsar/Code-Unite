@@ -44,7 +44,7 @@ const Login = () => {
         config
       );
       localStorage.setItem("username", username);
-      console.log(localStorage.getItem("username"))
+      console.log(localStorage.getItem("username"));
       // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
@@ -55,9 +55,12 @@ const Login = () => {
       });
       localStorage.setItem("username", JSON.stringify(data));
       setLoading(false);
-
-      navigate("/createroom");
-      window.location.reload()
+      if (username == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/createroom");
+      }
+      window.location.reload();
     } catch (error) {
       toast({
         title: "Error Occured!",
