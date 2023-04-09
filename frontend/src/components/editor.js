@@ -15,7 +15,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { ButtonGroup } from "@chakra-ui/react";
-import { useClipboard } from '@chakra-ui/react'
+import { useClipboard } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { MdRefresh } from "react-icons/md";
@@ -42,106 +42,100 @@ const Editor = () => {
   const currentUrl = location.pathname;
   const roomId = currentUrl.substring(6);
   const [code, setCode] = useState("");
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const [ruser, setRuser] = useState("");
   const { onCopy, value, setValue, hasCopied } = useClipboard("");
 
-  const copyRoomId = () =>
-  {
-    onCopy()
-    setValue(roomId)
-  }
-  useEffect(()=>{
+  const copyRoomId = () => {
+    onCopy();
+    setValue(roomId);
+  };
+  useEffect(() => {
     socket_global.on("remove", (val, id) => {
-      console.log(val + id)
-      console.log(89789798)
-      if (id == roomId && val==userName ) {
+      console.log(val + id);
+      console.log(89789798);
+      if (id == roomId && val == userName) {
         const name = val;
-        axios.post('http://43.204.63.149:5000/api/room/removeuser',{roomId,name})
-        .then(function (response) {
-           
-        });
-        navigate('/joinroom')
+        axios
+          .post("http://43.204.63.149:5000/api/room/removeuser", {
+            roomId,
+            name,
+          })
+          .then(function (response) {});
+        navigate("/joinroom");
       }
     });
-  },[ruser])
-
+  }, [ruser]);
 
   const user = JSON.parse(localStorage.getItem("username"));
   var userName;
-  if(user)
-  {
+  if (user) {
     userName = user.userName;
   }
 
   useEffect(() => {
     axios
-    .get(`http://43.204.63.149:5000/api/room/members/${roomId}`)
-    .then(function (response) {
-      // console.log(response.data)
-      setUsers(response.data)
-      console.log(users)
-    });
+      .get(`http://43.204.63.149:5000/api/room/members/${roomId}`)
+      .then(function (response) {
+        // console.log(response.data)
+        setUsers(response.data);
+        console.log(users);
+      });
   }, []);
 
-
-  useEffect(()=>{
-    fetch(
-      `http://43.204.63.149:5000/api/room/code/${roomId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+  useEffect(() => {
+    fetch(`http://43.204.63.149:5000/api/room/code/${roomId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        setCode(data[0].code)
+        setCode(data[0].code);
       })
       .catch((error) => console.error(error));
-  },[])
-
+  }, []);
 
   const [output, setOutput] = useState("");
   const leaveroom = async () => {
     const name = userName;
-    const data = await axios.post("/api/room/removeuser",{roomId,name});
-    navigate('/createroom')
-    console.log(data)
+    const data = await axios.post("/api/room/removeuser", { roomId, name });
+    navigate("/createroom");
+    console.log(data);
   };
-   const removeUser = (event) => {
-    const user = event.target.value
-    console.log(user)
-    socket_global.emit("remove",user,roomId );
-   setRuser(user)
-  }
+  const removeUser = (event) => {
+    const user = event.target.value;
+    console.log(user);
+    socket_global.emit("remove", user, roomId);
+    setRuser(user);
+  };
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
   const onChangeEditor = (e) => {
-    const code = e
-    axios.post("/api/room/code", {roomId,code}).then(function (response) {
-      console.log(response.data.code);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    const code = e;
+    axios
+      .post("/api/room/code", { roomId, code })
+      .then(function (response) {
+        console.log(response.data.code);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     socket_global.emit("editor", e, roomId);
   };
   const onChangeInput = (e) => {
     setInput(e);
   };
- 
+
   useEffect(() => {
     socket_global.on("editor", (msg, id) => {
       if (id == roomId) {
         setCode(msg);
       }
     });
-
-
   });
   const handleReset = () => {
     setCode('print("hello world");');
@@ -206,9 +200,8 @@ const Editor = () => {
 
       .then((data) => {
         setProblemId(data.problem_id);
-        console.log("problemId:")
-        if(data.problem_id != "")
-        {
+        console.log("problemId:");
+        if (data.problem_id != "") {
           fetch(
             `http://43.204.63.149:5000/api/problem/fetch/${data.problem_id}`,
             {
@@ -221,13 +214,12 @@ const Editor = () => {
             .then((response) => response.json())
             .then((data) => {
               setProblemStatement(Object.values(data));
-              setInput(Object.values(data)[6].substring(5));
-              setOutput(Object.values(data)[7].substring(6));
+              setInput(Object.values(data)[6].replace("Input", ""));
+              setOutput(Object.values(data)[7].replace("Output", ""));
             })
             .catch((error) => console.error(error));
         }
-       console.log(data.problem_id);
-       
+        console.log(data.problem_id);
       })
       .catch((error) => console.error("---------------------------" + error));
   }, []);
@@ -346,9 +338,8 @@ const Editor = () => {
     }
   };
 
-  if(user!=null){
+  if (user != null) {
     return (
-    
       <Box>
         <Box
           d="flex"
@@ -387,13 +378,13 @@ const Editor = () => {
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
               Output Format: {problemStatement[5]}
             </Text>
-  
+
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="4">
               Testcases: <Text color="green.200">{input}</Text>
             </Text>
           </Box>
         </Box>
-  
+
         <Box w="100%" p="4" backgroundColor={"#9840db"}>
           <Flex direction={["column", "row"]}>
             <Stack w={["100%", "50%"]} p="2">
@@ -411,15 +402,23 @@ const Editor = () => {
                   <option value="php">Php</option>
                 </Select>
 
-                <Button colorScheme="red" onClick={copyRoomId} size={"md"} ml="3">
-                <Text fontSize='xs' >
-                {hasCopied ? "Copied!" : "Copy room id"}      
-                </Text>
+                <Button
+                  colorScheme="red"
+                  onClick={copyRoomId}
+                  size={"md"}
+                  ml="3"
+                >
+                  <Text fontSize="xs">
+                    {hasCopied ? "Copied!" : "Copy room id"}
+                  </Text>
                 </Button>
-                <Button colorScheme="red" onClick={leaveroom} size={"md"} ml="3">
-                <Text fontSize='xs'>
-                  Leave room
-                </Text>
+                <Button
+                  colorScheme="red"
+                  onClick={leaveroom}
+                  size={"md"}
+                  ml="3"
+                >
+                  <Text fontSize="xs">Leave room</Text>
                 </Button>
               </Flex>
               <AceEditor
@@ -474,12 +473,10 @@ const Editor = () => {
         </Box>
       </Box>
     );
+  } else {
+    navigate("/login");
+    alert("You are not logged in!");
   }
-  else{
-    navigate('/login')
-    alert("You are not logged in!")
-  }
-
 };
 
 export default Editor;
