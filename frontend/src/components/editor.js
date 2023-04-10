@@ -405,8 +405,10 @@ const Editor = () => {
                 <Button
                   colorScheme="red"
                   onClick={copyRoomId}
-                  size={"md"}
+                  width={"8xl"}
                   ml="3"
+                  p = "3"
+                  maxWidth={"fit-content"}
                 >
                   <Text fontSize="xs">
                     {hasCopied ? "Copied!" : "Copy room id"}
@@ -415,10 +417,11 @@ const Editor = () => {
                 <Button
                   colorScheme="red"
                   onClick={leaveroom}
-                  size={"md"}
+                  
                   ml="3"
+                 width={"8xl"}
                 >
-                  <Text fontSize="xs">Leave room</Text>
+                  Leave room
                 </Button>
               </Flex>
               <AceEditor
