@@ -11,12 +11,15 @@ import Editor from "./components/editor";
 import { Room } from "./components/Room";
 import Admin from "./components/Admin";
 import AddProblem from "./components/addProblem";
+import Home from "./components/Home";
+
 function App() {
   return (
     <div className="App">
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Homepage />} />
         <Route path="signout" element={<Signout />} />
         <Route path="/joinroom" element={<JoinRoom />} />
