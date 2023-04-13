@@ -145,14 +145,49 @@ const Editor = () => {
   const submit = () => {
     // let output = problemStatement[7].substring(6);
     console.log(consoleLogs);
-    if (consoleLogs.trim() == output) {
+    if (
+      consoleLogs.trim() == output &&
+      problemStatement[1] != localStorage.getItem("problem")
+    ) {
+      // Get points and then update it
+      let username;
+      username = userName;
+      console.log(username);
+
+      axios
+        .post("/api/editor/getPoints", { username })
+        .then(function (response) {
+          let currentPoints = response.data.points;
+          console.log("Current points: ", currentPoints);
+          localStorage.setItem("problem", problemStatement[1]);
+          // Calculate new points
+          let newPoints = currentPoints + 10; // Update points as required
+          console.log("New points: ", newPoints);
+
+          // Update points for the user
+          axios
+            .post("/api/editor/updatePoints", {
+              username,
+              points: newPoints,
+            })
+            .then(function (response) {
+              console.log("Points updated successfully");
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       toast({
-        title: "Accepted",
+        title: "Accepted and points increased",
         status: "success",
         duration: 1000,
         isClosable: true,
         position: "bottom",
       });
+
       console.log("true");
     } else {
       toast({
@@ -213,9 +248,11 @@ const Editor = () => {
           )
             .then((response) => response.json())
             .then((data) => {
+              console.log(Object.values(data), "-----------------");
               setProblemStatement(Object.values(data));
-              setInput(Object.values(data)[6].replace("Input", ""));
-              setOutput(Object.values(data)[7].replace("Output", ""));
+              setInput(Object.values(data)[7].replace("Input", ""));
+              setOutput(Object.values(data)[8].replace("Output", ""));
+              // console.log(Object.values(data), "00000");
             })
             .catch((error) => console.error(error));
         }
@@ -357,26 +394,24 @@ const Editor = () => {
               fontFamily="Work sans"
               color="white"
               fontWeight="bold"
-            >
-              {problemStatement.title}
+            ></Text>
+            <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
+              Difficulty: {problemStatement[4]}
             </Text>
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
-              Difficulty: {problemStatement[3]}
+              Title: {problemStatement[2]}
             </Text>
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
-              Title: {problemStatement[1]}
+              Problem Statement: {problemStatement[3]}
             </Text>
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
-              Problem Statement: {problemStatement[2]}
-            </Text>
-            <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
-              Input: {problemStatement[4]}
+              Input: {problemStatement[5]}
             </Text>
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
               Output: <Text color="green.200">{output}</Text>
             </Text>
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="2">
-              Output Format: {problemStatement[5]}
+              Output Format: {problemStatement[6]}
             </Text>
 
             <Text fontSize="lg" fontFamily="Work sans" color="white" mt="4">
@@ -407,7 +442,7 @@ const Editor = () => {
                   onClick={copyRoomId}
                   width={"8xl"}
                   ml="3"
-                  p = "3"
+                  p="3"
                   maxWidth={"fit-content"}
                 >
                   <Text fontSize="xs">
@@ -417,9 +452,8 @@ const Editor = () => {
                 <Button
                   colorScheme="red"
                   onClick={leaveroom}
-                  
                   ml="3"
-                 width={"8xl"}
+                  width={"8xl"}
                 >
                   Leave room
                 </Button>
@@ -478,7 +512,7 @@ const Editor = () => {
     );
   } else {
     navigate("/login");
-    alert("You are not logged in!");
+    alert("You are not logged in! or you don't have access to this room");
   }
 };
 
