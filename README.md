@@ -21,37 +21,44 @@ CodeUnite is a revolutionary platform designed to streamline collaboration among
 Follow these simple steps to start using CodeUnite:
 
 1. Navigate to the backend directory:
+```console
 cd backend
-
-
-
+```
 
 2. Start the backend server:
+```console
 npm start
+```
 
 
 
 
 3. Move to the frontend directory:
+```console
 cd frontend
-
+```
 
 
 
 4. Start the frontend application:
+```console
 npm start
-
+```
 
 
 
 5. Finally, go to the socket directory:
+```console
 cd socket
+```
 
 
 
 
 6. Start the socket server:
+```console
 node index.js
+```
 
 
 
