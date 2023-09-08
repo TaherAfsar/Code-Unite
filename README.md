@@ -23,37 +23,37 @@ Follow these simple steps to start using CodeUnite:
 1. Navigate to the backend directory:
 cd backend
 
-markdown
+
 
 
 2. Start the backend server:
 npm start
 
-css
+
 
 
 3. Move to the frontend directory:
 cd frontend
 
-markdown
+
 
 
 4. Start the frontend application:
 npm start
 
-vbnet
+
 
 
 5. Finally, go to the socket directory:
 cd socket
 
-markdown
+
 
 
 6. Start the socket server:
 node index.js
 
-markdown
+
 
 
 ## Usage
