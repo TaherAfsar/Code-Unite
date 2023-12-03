@@ -57,14 +57,6 @@ const AddProblem = () => {
         if (res.data.error) {
           alert("Looks like some error occured");
         } else {
-          //   const userData = {
-          //     userName: res.data.members[0].name,
-          //     userId: res.data.members[0].userId,
-          //     roomName: res.data.roomName,
-          //     roomId: res.data.roomId,
-          //   };
-          //   localStorage.setItem("username", JSON.stringify(userData));
-          //   const user = JSON.parse(localStorage.getItem("username"));
           navigate("/admin");
         }
       })

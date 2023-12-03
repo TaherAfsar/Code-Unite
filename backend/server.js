@@ -7,14 +7,13 @@ const userRoutes = require("./routes/userRoutes");
 const problemRoutes = require("./routes/problem");
 const room = require("./routes/room");
 const editor = require("./routes/editorRoutes");
-// const HomepageRoutes = require("./routes/HomepageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-const cors=require("cors");
-const corsOptions ={
-   origin:'*', 
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
+const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 
 dotenv.config();
 mongoose.set("strictQuery", true);
@@ -22,10 +21,9 @@ connectDB();
 const app = express();
 
 app.use(express.json()); // to accept json data
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 app.get("/", async (req, res) => {
- 
   res.send("Server running");
 });
 
@@ -33,8 +31,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/problem", problemRoutes);
 app.use("/api/room", room);
 app.use("/api/editor", editor);
-// app.use("/api/HomePage", HomepageRoutes);
-
 app.use(notFound);
 app.use(errorHandler);
 

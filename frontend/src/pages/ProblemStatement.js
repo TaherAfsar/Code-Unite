@@ -12,19 +12,18 @@ const ProblemStatement = () => {
   const userD = JSON.parse(localStorage.getItem("username"));
   console.log(userD);
   const room_id = userD.roomId;
-  // console.log(room_id);
   const handleSelect = (id) => {
     console.log(userD);
     if (
       window.confirm("Are you sure you want to select this statement") === true
     ) {
       const data = {
-        roomId: room_id, // Replace with your actual room ID
-        problem_id: id, // Pass the ID of the selected problem
+        roomId: room_id,
+        problem_id: id,
       };
 
       axios
-        .post("/api/problem/select", data) //set problem for the room
+        .post("/api/problem/select", data)
         .then((response) => {
           console.log(response);
         })

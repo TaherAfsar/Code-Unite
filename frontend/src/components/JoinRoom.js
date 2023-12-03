@@ -12,28 +12,24 @@ const JoinRoom = () => {
   const [roomId, setRoomId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(user==null)
-   {
-    navigate('/login')
-   }
-  })
+  useEffect(() => {
+    if (user == null) {
+      navigate("/login");
+    }
+  });
   var userName;
-  console.log(user)
-  if(user){
-    if(user.username)
-    {
-      userName= user.username
+  console.log(user);
+  if (user) {
+    if (user.username) {
+      userName = user.username;
+    } else {
+      userName = user.userName;
     }
-    else{
-   userName= user.userName
-    }
-   console.log(user)
+    console.log(user);
   }
-  console.log(user)
-  console.log(userName)
+  console.log(user);
+  console.log(userName);
   const formSubmitEventHandler = () => {
-  
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -64,7 +60,6 @@ const JoinRoom = () => {
           console.log(res.data);
           console.log(roomId);
           navigate(`/room/${roomId}`);
-
         }
       })
       .catch((err) => {

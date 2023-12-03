@@ -1,19 +1,6 @@
-import { Box, Container, Text, TabPanels, Tabs } from "@chakra-ui/react";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
+import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -41,7 +28,6 @@ const Admin = () => {
     });
   });
   const handleSelect = (id) => {
-    // console.log(userD);
     if (
       window.confirm("Are you sure you want to delete this statement") === true
     ) {
@@ -108,48 +94,6 @@ const Admin = () => {
             Your Problems
           </Text>
         </Box>
-
-        {/* <TableContainer>
-        <Table
-          variant="simple"
-          d="flex"
-          justifyContent="flex-start"
-          p={"3"}
-          bg={"#9840db"}
-          w="100%"
-          m="20px 0 15px 0"
-          borderRadius={"10px"}
-          borderWidth="3"
-        >
-          <Thead>
-            <Tr>
-              <Th w={{ base: "30%", md: "15%" }}>Title</Th>
-              <Th w={{ base: "70%", md: "60%" }}>Problem Statement</Th>
-              <Th w={{ base: "25%", md: "15%" }}>Difficulty</Th>
-              <Th w={{ base: "20%", md: "10%" }}></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((row) => (
-              <Tr key={row.id}>
-                <Td>{row.title}</Td>
-                <Td>{row.problem}</Td>
-                <Td>{row.difficulty}</Td>
-                <Td>
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    onClick={() => handleSelect(row._id)}
-                    leftIcon={<DeleteIcon />}
-                  >
-                    Delete
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer> */}
         <table style={tableStyle}>
           <thead>
             <tr>

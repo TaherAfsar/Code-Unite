@@ -31,12 +31,10 @@ const Home = () => {
     if (username) {
       userName = username.userName;
       name = username.name;
-      console.log(userName, "------");
       axios
         .post("/api/editor/getPoints", { username: userName })
         .then(function (response) {
           let currentPoints = response.data.points;
-          console.log("Current points: ", currentPoints);
           // Calculate new points
           setPoints(currentPoints);
           // Update points for the user

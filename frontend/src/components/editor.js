@@ -7,7 +7,6 @@ import {
   Flex,
   Button,
   IconButton,
-  Input,
   Select,
   Stack,
   useToast,
@@ -24,7 +23,6 @@ import { socket_global } from "../utils/sockets.js";
 import { useLocation } from "react-router-dom";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
-import API from "../utils/axiosInstance.js";
 const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
 const API_URL = "https://api.jdoodle.com/v1/execute";
 
@@ -53,12 +51,10 @@ const Editor = () => {
   };
   useEffect(() => {
     socket_global.on("remove", (val, id) => {
-      console.log(val + id);
-      console.log(89789798);
       if (id == roomId && val == userName) {
         const name = val;
         axios
-          .post("http://43.204.63.149:5000/api/room/removeuser", {
+          .post("http://localhost:5000/api/room/removeuser", {
             roomId,
             name,
           })
@@ -76,16 +72,14 @@ const Editor = () => {
 
   useEffect(() => {
     axios
-      .get(`http://43.204.63.149:5000/api/room/members/${roomId}`)
+      .get(`http://localhost:5000/api/room/members/${roomId}`)
       .then(function (response) {
-        // console.log(response.data)
         setUsers(response.data);
-        console.log(users);
       });
   }, []);
 
   useEffect(() => {
-    fetch(`http://43.204.63.149:5000/api/room/code/${roomId}`, {
+    fetch(`http://localhost:5000/api/room/code/${roomId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -118,9 +112,7 @@ const Editor = () => {
     const code = e;
     axios
       .post("/api/room/code", { roomId, code })
-      .then(function (response) {
-        console.log(response.data.code);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -187,8 +179,6 @@ const Editor = () => {
         isClosable: true,
         position: "bottom",
       });
-
-      console.log("true");
     } else {
       toast({
         title: "Rejected",
@@ -200,29 +190,9 @@ const Editor = () => {
     }
   };
 
-  // fetch(`${PROXY_URL}"http://localhost:5000/api/editor/problemId"`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  //   body: { id: roomId },
-  // })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error:", error);
-  //   });
   useEffect(() => {
     //Runs on every render
-    fetch(`http://43.204.63.149:5000/api/editor/problemId`, {
+    fetch(`http://localhost:5000/api/editor/problemId`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -235,28 +205,21 @@ const Editor = () => {
 
       .then((data) => {
         setProblemId(data.problem_id);
-        console.log("problemId:");
         if (data.problem_id != "") {
-          fetch(
-            `http://43.204.63.149:5000/api/problem/fetch/${data.problem_id}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
+          fetch(`http://localhost:5000/api/problem/fetch/${data.problem_id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
             .then((response) => response.json())
             .then((data) => {
-              console.log(Object.values(data), "-----------------");
               setProblemStatement(Object.values(data));
               setInput(Object.values(data)[7].replace("Input", ""));
               setOutput(Object.values(data)[8].replace("Output", ""));
-              // console.log(Object.values(data), "00000");
             })
             .catch((error) => console.error(error));
         }
-        console.log(data.problem_id);
       })
       .catch((error) => console.error("---------------------------" + error));
   }, []);
@@ -270,7 +233,7 @@ const Editor = () => {
         versionIndex: "0",
         clientId: "5715b31dddb014988ed4e6b8f1409111",
         clientSecret:
-          "d5568ed6f786da78557ab96e073907847f007e721bb0f53effd40b4870caaa84",
+          "de4cb87bb0f2075dcac2cf98a74a5f7b336612cfce05360d8a152e36443c78bc",
       };
 
       if (language === "python3") {
@@ -328,42 +291,19 @@ const Editor = () => {
           versionIndex: "3",
         };
       }
-
-      // const response = await fetch(`${PROXY_URL}${API_URL}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "Access-Control-Allow-Origin": "*",           //Accept request from everyone
-      //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      //   },
-      //   body: JSON.stringify(program),
-      // });
-
-      // const data = await response.json();
-      // setConsoleLogs([data.output]);
       const config = {
         headers: {
           "Content-type": "application/json",
         },
       };
-
-      //  axios.post(
-      //   "http://localhost:5000/api/editor/execute/",
-      //   program
-      //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
-
       const data = await axios.post(
-        "http://43.204.63.149:5000/api/editor/execute/",
+        "http://localhost:5000/api/editor/execute/",
         program,
         config
       );
-      //  console.log(data.data.output)
 
       setConsoleLogs(data.data.output);
     } catch (error) {
-      console.log(
-        "-------------------------------------------------------------------------------"
-      );
       console.error(error);
       toast({
         title: "Error",

@@ -32,13 +32,10 @@ function NavBar() {
               onClick={() => {
                 localStorage.removeItem("username");
                 window.location.reload();
-
-                console.log(localStorage.getItem("username"));
               }}
             >
               Signout
             </Link>
-            {/* <Box bg="#9840db" color="#1c1d1f" onClick={Signout} style={{cursor:"pointer"}}>Signout</Box> */}
 
             <Link to="/home">
               <Image
@@ -58,8 +55,6 @@ function NavBar() {
       <Box bg="#9840db" color="#1c1d1f" px="2" mb="10">
         <Flex h="20" alignItems="center">
           <Box>
-            {/* <Image src={'../src/assets/logo.jpeg'} alt="My Logo" h="8" /> */}
-            {/* <img src="../src/assets/logo.jpeg" alt="react logo" style={{ width: '400px', }}/> */}
             <Link to="/">
               <Image
                 width={250}
@@ -85,7 +80,6 @@ function NavBar() {
                 mt="-15px"
               />
             </Link>
-            {/* <Link to="/contact">Contact</Link> */}
           </Stack>
         </Flex>
       </Box>
