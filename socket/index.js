@@ -72,22 +72,5 @@ const io = require("socket.io")(8900, {
       }
     });
   
-    // socket.on("joinroom", (roomId: string) => {
-    //   socket.join(roomId);
-    //   socket.broadcast.to(roomId).emit("userjoined");
-    // });
-    // socket.on("leaveroom", (roomId: string) => {
-    //   socket.leave(roomId);
-    // });
-  
-    // socket.on("join-room", (roomId: string, userId: string) => {
-    //   console.log(roomId, userId);
-    //   socket.join(roomId);
-    //   socket.broadcast.to(roomId).emit("user-connected", userId);
-  
-    //   socket.on("leaveAudioRoom", () => {
-    //     socket.broadcast.to(roomId).emit("userLeftAudio", userId);
-    //   });
-    // });
   });
       

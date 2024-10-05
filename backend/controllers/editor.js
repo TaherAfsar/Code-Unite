@@ -1,19 +1,7 @@
 const Room = require("../models/room");
 const User = require("../models/userModel");
-// const getProblemId = async (req, res) => {
-//   const { id } = req.body;
-//   // const { roomId } = req.params;
-//   // console.log(req.params)
-//   try {
-//     const room = await Room.findOne({
-//       room_id: id,
-//     }).select({ problem_id: 1, _id: 0 });
-//     res.status(200).json(room);
-//   } catch (e) {
-//     res.status(500).json(e);
-//     console.log(e);
-//   }
-// };
+const request = require('request');
+
 const getProblemId = async (req, res) => {
   const { id } = req.body;
 
@@ -34,19 +22,41 @@ const getProblemId = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-const execute = async (req, res) => {
-  const program = req.body;
-  const API_URL = "https://api.jdoodle.com/v1/execute";
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+const execute = (req, res) => {
+  const { script, language, stdin, versionIndex } = req.body;
+
+  const executionData = {
+    clientId: process.env.JDOODLE_CLIENT_ID,     // Use environment variables
+    clientSecret: process.env.JDOODLE_CLIENT_SECRET,
+    script: script,
+    language: language,
+    stdin: stdin,
+    versionIndex: versionIndex,
+  };
+
+  const API_URL = 'https://api.jdoodle.com/v1/execute';
+
+
+  request.post(
+    {
+      url: API_URL,
+      json: executionData,
     },
-    body: JSON.stringify(program),
-  });
-  const data = await response.json();
-  res.status(200).json(data);
+    (error, response, body) => {
+      if (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ error: 'JDoodle API call failed' });
+      }
+
+
+      res.status(200).json({
+        output: body.output,
+        error: body.error,
+        cpuTime: body.cpuTime,
+      });
+    }
+  );
 };
 const updatePoints = async (req, res) => {
   const { username, points } = req.body;

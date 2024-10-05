@@ -1,3 +1,4 @@
+const Room = require("../models/room");
 let nanoid;
 
 async function generateId() {
@@ -21,7 +22,6 @@ if (nanoid) {
   console.log(nanoid());
 }
 
-const Room = require("../models/room");
 const createRoom = async (req, res) => {
   console.log(req.body)
   const { userName, roomName, password, roomLimit } = req.body;

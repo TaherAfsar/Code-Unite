@@ -58,7 +58,7 @@ const Editor = () => {
       if (id == roomId && val == userName) {
         const name = val;
         axios
-          .post("http://43.204.63.149:5000/api/room/removeuser", {
+          .post("http://localhost:5000/api/room/removeuser", {
             roomId,
             name,
           })
@@ -76,7 +76,7 @@ const Editor = () => {
 
   useEffect(() => {
     axios
-      .get(`http://43.204.63.149:5000/api/room/members/${roomId}`)
+      .get(`http://localhost:5000/api/room/members/${roomId}`)
       .then(function (response) {
         // console.log(response.data)
         setUsers(response.data);
@@ -85,7 +85,7 @@ const Editor = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://43.204.63.149:5000/api/room/code/${roomId}`, {
+    fetch(`http://localhost:5000/api/room/code/${roomId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -222,7 +222,7 @@ const Editor = () => {
   //   });
   useEffect(() => {
     //Runs on every render
-    fetch(`http://43.204.63.149:5000/api/editor/problemId`, {
+    fetch(`http://localhost:5000/api/editor/problemId`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -238,7 +238,7 @@ const Editor = () => {
         console.log("problemId:");
         if (data.problem_id != "") {
           fetch(
-            `http://43.204.63.149:5000/api/problem/fetch/${data.problem_id}`,
+            `http://localhost:5000/api/problem/fetch/${data.problem_id}`,
             {
               method: "GET",
               headers: {
@@ -260,111 +260,24 @@ const Editor = () => {
       })
       .catch((error) => console.error("---------------------------" + error));
   }, []);
-
   const handleExecute = async () => {
-    setConsoleLogs("");
     try {
-      let program = {
+      const program = {
         script: code,
         language: language,
-        versionIndex: "0",
-        clientId: "5715b31dddb014988ed4e6b8f1409111",
-        clientSecret:
-          "d5568ed6f786da78557ab96e073907847f007e721bb0f53effd40b4870caaa84",
+        stdin: input,
+        versionIndex: "0",  // Adjust based on the language version
       };
-
-      if (language === "python3") {
-        program = {
-          ...program,
-          stdin: input,
-        };
-      } else if (language === "java") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "3",
-          script: { code },
-        };
-      } else if (language === "nodejs") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "2",
-        };
-      } else if (language === "ruby") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "3",
-        };
-      } else if (language === "c") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "0",
-        };
-      } else if (language === "cpp") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "4",
-        };
-      } else if (language === "csharp") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "1",
-        };
-      } else if (language === "swift") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "3",
-        };
-      } else if (language === "php") {
-        program = {
-          ...program,
-          stdin: input,
-          versionIndex: "3",
-        };
-      }
-
-      // const response = await fetch(`${PROXY_URL}${API_URL}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "Access-Control-Allow-Origin": "*",           //Accept request from everyone
-      //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      //   },
-      //   body: JSON.stringify(program),
-      // });
-
-      // const data = await response.json();
-      // setConsoleLogs([data.output]);
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      //  axios.post(
-      //   "http://localhost:5000/api/editor/execute/",
-      //   program
-      //     ).then((response)=>{console.log(response.data.output)}).catch((error)=>{console.log(error)})
-
-      const data = await axios.post(
-        "http://43.204.63.149:5000/api/editor/execute/",
-        program,
-        config
+  
+      const response = await axios.post(
+        "http://localhost:5000/api/editor/execute",
+        program
       );
-      //  console.log(data.data.output)
-
-      setConsoleLogs(data.data.output);
+  
+      // Set the console logs to the output of the executed code
+      setConsoleLogs(response.data.output);
     } catch (error) {
-      console.log(
-        "-------------------------------------------------------------------------------"
-      );
-      console.error(error);
+      console.error("Execution error:", error);
       toast({
         title: "Error",
         description: "Failed to execute the code.",
@@ -374,7 +287,9 @@ const Editor = () => {
       });
     }
   };
-
+  
+  
+  
   if (user != null) {
     return (
       <Box>

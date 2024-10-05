@@ -33,7 +33,7 @@ const Home = () => {
       name = username.name;
       console.log(userName, "------");
       axios
-        .post("http://43.204.63.149:5000/api/editor/getPoints", {
+        .post("http://localhost:5000/api/editor/getPoints", {
           username: userName,
         })
         .then(function (response) {

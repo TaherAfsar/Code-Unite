@@ -11,7 +11,7 @@ function NavBar() {
       <Box bg="#9840db" color="#1c1d1f" px="2" mb="10">
         <Flex h="20" alignItems="center">
           <Box>
-            <Link to="/home">
+            <Link to="/">
               <Image
                 width={250}
                 height={"195px"}
@@ -40,7 +40,7 @@ function NavBar() {
             </Link>
             {/* <Box bg="#9840db" color="#1c1d1f" onClick={Signout} style={{cursor:"pointer"}}>Signout</Box> */}
 
-            <Link to="/home">
+            <Link to="/">
               <Image
                 width={"50px"}
                 height={"50px"}
