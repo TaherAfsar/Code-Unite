@@ -4,20 +4,36 @@ CodeUnite is a revolutionary platform designed to streamline collaboration among
 
 ## Screenshots
 
+### Login Signup
+![image](https://github.com/user-attachments/assets/c466a0e8-c358-4bf8-9001-d9e9200cf686)
+
+
 ### Main Interface
-[Add screenshot of the main coding interface]
+![image](https://github.com/user-attachments/assets/26fe9eef-7aec-4f2d-bf95-86865c40f516)
+
 
 ### Room Creation/Joining
-[Add screenshot of room creation/joining interface]
-
-### Collaborative Coding Room
-[Add screenshot of multiple users in a coding room]
-
-### Admin Dashboard
-[Add screenshot of the admin dashboard]
+![image](https://github.com/user-attachments/assets/6addb2f8-5796-484c-a294-2169f864e1e0)
 
 ### Problem Statement View
-[Add screenshot of how problem statements appear]
+![image](https://github.com/user-attachments/assets/b9c65fcb-a6fb-4e9b-aa43-b16af470254f)
+
+### View Problem statements and testcases
+![image](https://github.com/user-attachments/assets/cebad78e-ae14-4cba-a993-7356d35d7c8a)
+
+
+
+### Collaborative Coding Room Solve, Run and Submit the code
+![image](https://github.com/user-attachments/assets/a378ae23-59bf-4b77-961b-c5ae99fa97e9)
+
+
+### Admin Dashboard
+![image](https://github.com/user-attachments/assets/2c861f21-d61c-4226-9edc-95ac3a3d1a26)
+
+![image](https://github.com/user-attachments/assets/eab9f827-c084-485d-83b5-bb11cde953c3)
+
+
+
 
 ## Features
 
